@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 
-const Navbar = () => {
+const LeftSideBar = () => {
   return (
     <>
-      <div>testing</div>
+      <div>LeftSideBar</div>
       <Outlet />
     </>
   );
 };
 
-export default Navbar;
+export default LeftSideBar;

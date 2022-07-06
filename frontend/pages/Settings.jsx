@@ -1,6 +1,9 @@
 const Settings = () => {
-    return <></>;
-  };
-  
-  export default Settings;
-  
+  return (
+    <>
+      <div>Settings</div>
+    </>
+  );
+};
+
+export default Settings;

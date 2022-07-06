@@ -1,5 +1,9 @@
 const Budget = () => {
-  return <><div>budget</div></>;
+  return (
+    <>
+      <div>budget</div>
+    </>
+  );
 };
 
 export default Budget;

@@ -1,6 +1,9 @@
 const Position = () => {
-    return <></>;
-  };
-  
-  export default Position;
-  
+  return (
+    <>
+      <div>Position</div>
+    </>
+  );
+};
+
+export default Position;
