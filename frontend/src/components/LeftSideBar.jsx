@@ -4,6 +4,9 @@ const LeftSideBar = () => {
   return (
     <>
       <div>LeftSideBar</div>
+      <br />
+      <br />
+      <br />
       <Outlet />
     </>
   );

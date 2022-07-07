@@ -1,7 +1,11 @@
+import SignUp from "../components/SignUp";
+import HomePageFooter from "../components/HomePageFooter";
+
 const Home = () => {
   return (
     <>
-      <div>Home Page</div>
+      <SignUp />
+      <HomePageFooter />
     </>
   );
 };

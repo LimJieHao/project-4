@@ -17,6 +17,8 @@ const Navbar = () => {
       <br />
       <Link to="/app/settings">Settings</Link>
       <br />
+      <br />
+      <br />
       <Outlet />
     </>
   );
