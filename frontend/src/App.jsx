@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LeftSideBar from "../components/LeftSideBar";
-import Navbar from "../components/Navbar";
-import Home from "../pages/Home";
-import Budget from "../pages/Budget";
-import Position from "../pages/Position";
-import Insights from "../pages/Insights";
-import Settings from "../pages/Settings";
+import LeftSideBar from "./components/LeftSideBar";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Features from "./pages/Features";
+import Login from "./pages/Login";
+import Budget from "./pages/Budget";
+import Position from "./pages/Position";
+import Insights from "./pages/Insights";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route path="/" element={<Home />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/login" element={<Login />} />
           </Route>
           <Route path="/app" element={<LeftSideBar />}>
             <Route path="/app/budget" element={<Budget />} />
