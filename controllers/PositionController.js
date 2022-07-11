@@ -4,7 +4,7 @@ const prisma = require("../server");
 const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addpos/:id", cookieJwtAuth, async (req, res) => {
+router.post("/addpos/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const newPosition = await prisma.Asset_Liab_Position.create({
@@ -27,7 +27,7 @@ router.post("/addpos/:id", cookieJwtAuth, async (req, res) => {
 });
 
 // Read
-router.get("/", cookieJwtAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const positionInfo = await prisma.Asset_Liab_Position.findMany();
     res.send(positionInfo);
@@ -36,7 +36,7 @@ router.get("/", cookieJwtAuth, async (req, res) => {
   }
 });
 
-router.get("/:id", cookieJwtAuth, async (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const positionInfo = await prisma.Asset_Liab_Position.findUnique({
@@ -51,7 +51,7 @@ router.get("/:id", cookieJwtAuth, async (req, res) => {
 });
 
 // Update
-router.put("/updatepos/:id", cookieJwtAuth, async (req, res) => {
+router.put("/updatepos/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const updatePosition = await prisma.Asset_Liab_Position.update({
@@ -75,7 +75,7 @@ router.put("/updatepos/:id", cookieJwtAuth, async (req, res) => {
 });
 
 // Delete
-router.delete("/removepos/:id", cookieJwtAuth, async (req, res) => {
+router.delete("/removepos/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const deletePosition = await prisma.Asset_Liab_Position.delete({
