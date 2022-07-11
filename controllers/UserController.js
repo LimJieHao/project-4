@@ -12,7 +12,7 @@ const saltRounds = bcrypt.genSaltSync(10);
 // sign up
 router.post("/signup", async (req, res) => {
   try {
-    const user = await prisma.user.create({
+    const user = await prisma.User.create({
       data: {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, saltRounds),
@@ -33,7 +33,7 @@ router.post("/signup", async (req, res) => {
 // login
 router.post("/login", async (req, res) => {
   try {
-    const checkUser = await prisma.user.findUnique({
+    const checkUser = await prisma.User.findUnique({
       where: {
         email: req.body.email,
       },
@@ -59,11 +59,11 @@ router.post("/login", async (req, res) => {
 });
 
 // Read
-// Retrieve one user
+// Retrieve one user, might not need this due to jotai
 router.get("/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const userInfo = await prisma.user.findUnique({
+    const userInfo = await prisma.User.findUnique({
       where: {
         id: id,
       },
@@ -88,7 +88,7 @@ router.get("/logout", cookieJwtAuth, async (req, res) => {
 router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const updateUser = await prisma.user.update({
+    const updateUser = await prisma.User.update({
       where: {
         id: id,
       },
@@ -107,10 +107,10 @@ router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
 router.delete("/settings/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteUser = await prisma.user.delete({
+    const deleteUser = await prisma.User.delete({
       where: {
         id: id,
-      }
+      },
     });
     res.clearCookie("token");
     res.send({ status: "Successfully deleted user." });
