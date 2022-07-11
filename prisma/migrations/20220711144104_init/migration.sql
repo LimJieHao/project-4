@@ -1,10 +1,10 @@
 -- CreateTable
-CREATE TABLE "Users" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
 
-    CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -52,19 +52,19 @@ CREATE TABLE "Inc_Exp_Budget" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Inc_Exp_Category_name_key" ON "Inc_Exp_Category"("name");
 
 -- AddForeignKey
-ALTER TABLE "Asset_Liab_Position" ADD CONSTRAINT "Asset_Liab_Position_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Asset_Liab_Position" ADD CONSTRAINT "Asset_Liab_Position_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Asset_Liab_Position" ADD CONSTRAINT "Asset_Liab_Position_inc_exp_id_fkey" FOREIGN KEY ("inc_exp_id") REFERENCES "Inc_Exp_Budget"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Inc_Exp_Budget" ADD CONSTRAINT "Inc_Exp_Budget_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Inc_Exp_Budget" ADD CONSTRAINT "Inc_Exp_Budget_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Inc_Exp_Budget" ADD CONSTRAINT "Inc_Exp_Budget_inc_exp_id_fkey" FOREIGN KEY ("inc_exp_id") REFERENCES "Inc_Exp_Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

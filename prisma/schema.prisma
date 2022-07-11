@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id                 String                @id @default(uuid())
   email              String                @unique
   password           String
@@ -34,7 +34,7 @@ model Asset_Liab_Position {
   merchant       String
   description    String
   note           String?
-  user           Users          @relation(fields: [user_id], references: [id])
+  user           User          @relation(fields: [user_id], references: [id])
   user_id        String
   inc_exp_budget Inc_Exp_Budget @relation(fields: [inc_exp_id], references: [id])
   inc_exp_id     String
@@ -52,7 +52,7 @@ model Inc_Exp_Budget {
   rec_start_date      DateTime?             @db.Date
   rec_end_date        DateTime?             @db.Date
   rec_amt             Float?                @default(0.00)
-  users               Users                 @relation(fields: [user_id], references: [id])
+  users               User                 @relation(fields: [user_id], references: [id])
   user_id             String
   inc_exp_category    Inc_Exp_Category      @relation(fields: [inc_exp_id], references: [id])
   inc_exp_id          String
