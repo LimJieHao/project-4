@@ -6,8 +6,6 @@ const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Import bcrypt
 const bcrypt = require("bcrypt");
-const { hashSync } = require("bcrypt");
-const e = require("express");
 const saltRounds = bcrypt.genSaltSync(10);
 
 // Create
