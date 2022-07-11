@@ -43,7 +43,7 @@ router.get("/:id", cookieJwtAuth, async (req, res) => {
 });
 
 // Update
-router.put("/update/:id", cookieJwtAuth, async (req, res) => {
+router.put("/updatecat/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const updateCategory = await prisma.Inc_Exp_Category.update({
