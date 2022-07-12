@@ -35,10 +35,10 @@ CREATE TABLE "Asset_Liab_Position" (
 -- CreateTable
 CREATE TABLE "Inc_Exp_Budget" (
     "id" TEXT NOT NULL,
-    "date" DATE NOT NULL,
+    "date" DATE,
     "planned_amt" DOUBLE PRECISION NOT NULL DEFAULT 0.00,
     "actual_amt" DOUBLE PRECISION NOT NULL DEFAULT 0.00,
-    "merchant" TEXT NOT NULL,
+    "merchant" TEXT,
     "description" TEXT NOT NULL,
     "note" TEXT,
     "rec_type" TEXT,

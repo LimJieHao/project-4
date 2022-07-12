@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BudgetHeader = () => {
+const BudgetHeader = ({budgetmonth}) => {
   // For calculation of current month
   const dateFunc = new Date()
   const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : (dateFunc.getMonth() + 1))
@@ -8,6 +8,7 @@ const BudgetHeader = () => {
   
   const handleChange = (event) => {
     setMonth(event.target.value);
+    budgetmonth(event.target.value)
   };
 
   return (

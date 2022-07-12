@@ -13,9 +13,76 @@ const saltRounds = bcrypt.genSaltSync(10);
 router.post("/signup", async (req, res) => {
   try {
     const user = await prisma.User.create({
+      include: {
+        inc_exp_budget: true,
+      },
       data: {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, saltRounds),
+        inc_exp_budget: {
+          create: [
+            {
+              description: "Paycheck 1",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "1",
+            },
+            {
+              description: "Paycheck 2",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "1",
+            },
+            {
+              description: "Electricity",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "2",
+            },
+            {
+              description: "Water",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "2",
+            },
+            {
+              description: "Internet",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "2",
+            },
+            {
+              description: "Netflix",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "3",
+            },
+            {
+              description: "Disney Plus",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "3",
+            },
+            {
+              description: "Food",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "4",
+            },
+            {
+              description: "Groceries",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "4",
+            },
+            {
+              description: "Credit Card",
+              planned_amt: 0.0,
+              actual_amt: 0.0,
+              inc_exp_id: "5",
+            },
+          ],
+        },
       },
     });
     const token = jwt.sign(user, process.env.SECRET_KEY, {
@@ -107,11 +174,22 @@ router.put("/settings/:id", async (req, res) => { //To add cookieJwtAuth
 router.delete("/settings/:id", async (req, res) => { //To add cookieJwtAuth
   const { id } = req.params;
   try {
-    const deleteUser = await prisma.User.delete({
+    const deleteUser = prisma.User.delete({
       where: {
         id: id,
       },
     });
+    const deleteBudget = prisma.Inc_Exp_Budget.deleteMany({
+      where: {
+        user_id: id,
+      },
+    });
+    const deletePosition = prisma.Asset_Liab_Position.deleteMany({
+      where: {
+        user_id: id,
+      },
+    });
+    const transaction = await prisma.$transaction([deletePosition, deleteBudget, deleteUser])
     res.clearCookie("token");
     res.send({ status: "Successfully deleted user." });
   } catch (error) {
