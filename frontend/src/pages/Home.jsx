@@ -1,3 +1,4 @@
+import { useState } from "react";
 import SignUp from "../components/SignUp";
 import HomePageFooter from "../components/HomePageFooter";
 
