@@ -1,6 +1,6 @@
 import { useState } from "react";
-import SignUp from "../components/SignUp";
-import HomePageFooter from "../components/HomePageFooter";
+import SignUp from "../components/home/SignUp";
+import HomePageFooter from "../components/home/HomePageFooter";
 
 const Home = () => {
   return (
