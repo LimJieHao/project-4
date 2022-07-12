@@ -19,8 +19,14 @@ const Navbar = () => {
     <>
       <Link to="/">Home</Link>
       <br />
-      <Link to="/login">Login</Link>
-      <br />
+
+      {user?.["email"] !== undefined ? null : (
+        <>
+          <Link to="/login">Login</Link>
+          <br />
+        </>
+      )}
+      
       {user?.["email"] !== undefined ? (
         <>
           <Link to="/app/budget">Budget</Link>
@@ -36,8 +42,7 @@ const Navbar = () => {
 
       {user?.["email"] !== undefined ? (
         <button onClick={handleLogOut}>Log Out</button>
-      ) : ( null
-      )}
+      ) : null}
       <br />
       <br />
       <Outlet />
