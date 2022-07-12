@@ -60,13 +60,14 @@ const EditAccountSettings = () => {
               required
               type="Password"
               placeholder="Password"
+              autoComplete="current-password"
               name="Password"
               id="Password"
               value={accInfo.password}
               onChange={() => handleChange(event, "password")}
             />
             <button>Edit</button>
-            <button onClick={() => setEditAcc(false)}>Cancel</button>
+            <button type="button" onClick={() => setEditAcc(false)}>Cancel</button>
           </fieldset>
         </form>
       )}

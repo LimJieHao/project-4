@@ -59,6 +59,7 @@ const Login = () => {
             required
             type="Password"
             placeholder="Password"
+            autoComplete="current-password"
             name="Password"
             id="Password"
             value={login.password}

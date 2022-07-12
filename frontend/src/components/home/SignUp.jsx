@@ -67,6 +67,7 @@ const SignUp = () => {
             required
             type="password"
             placeholder="Password"
+            autoComplete="current-password"
             name="password"
             id="password"
             value={signUp.password}

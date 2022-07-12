@@ -11,8 +11,8 @@ const LeftSideBar = () => {
     navigate("/login");
   }
 
-  const handleLogOut = () => {
-    fetch("/api/user/logout")
+  const handleLogOut = async () => {
+    await fetch("/api/user/logout")
       .then((response) => response.json())
       .then((data) => setUser());
     navigate("/");
