@@ -5,6 +5,8 @@ const BudgetCenter = () => {
     return (
         <div className="budgetcenter">
             <BudgetHeader />
+            <br />
+            <br />
             <BudgetBody />
         </div>
     );

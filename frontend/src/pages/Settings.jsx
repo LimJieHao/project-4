@@ -16,6 +16,8 @@ const Settings = () => {
   return (
     <div className="budgetcenter">
       <div>Account Settings</div>
+      <div>Profile</div>
+      <div>{user.email}</div>
       <br />
       <div>Edit account information</div>
       <EditAccountSettings />
