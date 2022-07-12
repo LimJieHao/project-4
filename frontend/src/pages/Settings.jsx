@@ -18,7 +18,7 @@ const Settings = () => {
       <div>Account Settings</div>
       <br />
       <br />
-      <button>Edit account information</button>
+      <div>Edit account information</div>
       <br />
       <br />
       <br />
