@@ -65,7 +65,7 @@ const SignUp = () => {
           <input
             className="inputfield"
             required
-            type="text"
+            type="password"
             placeholder="password"
             name="password"
             id="password"
