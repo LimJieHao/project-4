@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { userAtom } from "../../App";
 
 const EditAccountSettings = () => {
-  let navigate = useNavigate();
-
   const [user, setUser] = useAtom(userAtom);
   const [editAcc, setEditAcc] = useState(false);
   const [accInfo, setAccInfo] = useState({
