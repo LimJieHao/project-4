@@ -4,6 +4,11 @@ const BudgetHeader = ({budgetmonth}) => {
   // For calculation of current month
   const dateFunc = new Date()
   const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : (dateFunc.getMonth() + 1))
+
+  // Form min and max period
+  const minMonth = dateFunc.getFullYear() - 5 + "-" + "01"
+  const maxMonth = dateFunc.getFullYear() + 5 + "-" + "12"
+
   const [month, setMonth] = useState(currentMonth)
   
   const handleChange = (event) => {
@@ -18,8 +23,8 @@ const BudgetHeader = ({budgetmonth}) => {
         type="month"
         id="start"
         name="start"
-        min="2022-01"
-        max="2025-12"
+        min={minMonth}
+        max={maxMonth}
         value={month}
         onChange={() => handleChange(event)}
       />
