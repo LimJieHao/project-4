@@ -14,19 +14,16 @@ const Settings = () => {
   }
 
   return (
-    <>
+    <div className="budgetcenter">
       <div>Account Settings</div>
       <br />
-      <br />
       <div>Edit account information</div>
-      <br />
-      <br />
-      <br />
       <EditAccountSettings />
       <br />
       <br />
+      <div>Edit account information</div>
       <DeleteAccount />
-    </>
+    </div>
   );
 };
 

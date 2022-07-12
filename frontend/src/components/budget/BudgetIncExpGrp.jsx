@@ -1,4 +1,4 @@
-const IncExpGrp = () => {
+const BudgetIncExpGrp = () => {
     return (
       <>
         <div>Inc Exp Grp</div>
@@ -6,5 +6,5 @@ const IncExpGrp = () => {
     );
   };
   
-  export default IncExpGrp;
+  export default BudgetIncExpGrp;
   

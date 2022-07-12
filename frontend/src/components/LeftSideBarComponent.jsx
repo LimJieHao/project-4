@@ -2,14 +2,10 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { userAtom } from "../App";
 
-const LeftSideBar = () => {
+const LeftSideBarComponent = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
-
-  if (user.email === undefined) {
-    navigate("/login");
-  }
 
   const handleLogOut = async () => {
     await fetch("/api/user/logout")
@@ -19,8 +15,7 @@ const LeftSideBar = () => {
   };
 
   return (
-    <>
-      <div>LeftSideBar</div>
+    <div className="leftsidebar">
       {user?.["email"] !== undefined ? (
         <>
           <Link to="/app/budget">Budget</Link>
@@ -39,9 +34,8 @@ const LeftSideBar = () => {
       ) : null}
       <br />
       <br />
-      <Outlet />
-    </>
+    </div>
   );
 };
 
-export default LeftSideBar;
+export default LeftSideBarComponent;
