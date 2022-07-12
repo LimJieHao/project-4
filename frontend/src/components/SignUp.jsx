@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { userAtom } from "../App";
+import jwtDecode from "jwt-decode";
 
 const SignUp = () => {
   let navigate = useNavigate();
 
   const [signUp, setSignUp] = useState({
-    username: "",
-    password: "",
     email: "",
-    first_name: "",
-    last_name: "",
-    display_pic_url: "",
-    user_description: "",
+    password: "",
   });
+
+  const [user, setUser] = useAtom(userAtom);
 
   const handleChange = (event, key) => {
     setSignUp({
@@ -38,12 +38,12 @@ const SignUp = () => {
           );
           navigate("/login");
         } else {
-          setUser(data);
-          console.log(data);
-          navigate("/");
+          setUser(jwtDecode(data));
+          navigate("/app/budget");
         }
       });
   };
+
   return (
     <>
       <form method="post" onSubmit={handleSubmitSignup}>
@@ -73,9 +73,10 @@ const SignUp = () => {
             onChange={() => handleChange(event, "password")}
           />
           <br />
-          
+
           <button>Sign Up</button>
         </fieldset>
+        <br />
       </form>
     </>
   );

@@ -24,7 +24,7 @@ router.post("/signup", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    res.send(user);
+    res.json(token);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
