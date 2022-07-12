@@ -66,6 +66,7 @@ const EditAccountSettings = () => {
               onChange={() => handleChange(event, "password")}
             />
             <button>Edit</button>
+            <button onClick={() => setEditAcc(false)}>Cancel</button>
           </fieldset>
         </form>
       )}
