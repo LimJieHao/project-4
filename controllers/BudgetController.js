@@ -23,7 +23,7 @@ router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
         inc_exp_id: "1", // To amend
       },
     });
-    res.send(newBudget)
+    res.send(newBudget);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
@@ -42,10 +42,28 @@ router.get("/", cookieJwtAuth, async (req, res) => {
 router.get("/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const budgetInfo = await prisma.Inc_Exp_Budget.findUnique({
+    const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
       where: {
-        id: id,
+        user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81",
       },
+      include: {
+        inc_exp_category: {},
+      },
+      orderBy: [
+        {
+          inc_exp_category: {
+            type: "desc",
+          },
+        },
+        {
+          inc_exp_category: {
+            name: "asc",
+          },
+        },
+        {
+          description: "asc",
+        },
+      ],
     });
     res.send(budgetInfo);
   } catch (error) {
@@ -82,17 +100,17 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
 
 // Delete
 router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deleteBudget = await prisma.Inc_Exp_Budget.delete({
-        where: {
-          id: id,
-        },
-      });
-      res.send({ status: "Successfully deleted Budget." });
-    } catch (error) {
-      res.send({ status: "fail", data: "error" });
-    }
-  });
+  const { id } = req.params;
+  try {
+    const deleteBudget = await prisma.Inc_Exp_Budget.delete({
+      where: {
+        id: id,
+      },
+    });
+    res.send({ status: "Successfully deleted Budget." });
+  } catch (error) {
+    res.send({ status: "fail", data: "error" });
+  }
+});
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const BudgetRightPanel = () => {
+const BudgetRightPanel = ({budgetData}) => {
     return (
       <div className="budgetrightpanel">
         <div>Budget Right Panel</div>

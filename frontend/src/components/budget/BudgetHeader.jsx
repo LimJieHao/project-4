@@ -1,19 +1,15 @@
-import { useState } from "react";
-
-const BudgetHeader = ({budgetmonth}) => {
+const BudgetHeader = ({bcMonth, month}) => {
   // For calculation of current month
-  const dateFunc = new Date()
-  const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : (dateFunc.getMonth() + 1))
-
-  // Form min and max period
-  const minMonth = dateFunc.getFullYear() - 5 + "-" + "01"
-  const maxMonth = dateFunc.getFullYear() + 5 + "-" + "12"
-
-  const [month, setMonth] = useState(currentMonth)
+  const dateFunc = new Date();
+  const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : dateFunc.getMonth() + 1);
   
+  // Form min and max period
+  const minMonth = dateFunc.getFullYear() - 5 + "-" + "01";
+  const maxMonth = dateFunc.getFullYear() + 5 + "-" + "12";
+  
+  // Callback function to uplift value to state
   const handleChange = (event) => {
-    setMonth(event.target.value);
-    budgetmonth(event.target.value)
+    bcMonth(event.target.value)
   };
 
   return (

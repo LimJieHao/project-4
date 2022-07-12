@@ -40,3 +40,12 @@
    background-color: yellow;
    padding: 10px;
  }
+
+ .budgettable {
+  display: flex;
+  column-gap: 100px;
+}
+
+.budgettitle {
+  width: 300px;
+}
