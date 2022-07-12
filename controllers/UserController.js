@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
         res.cookie("token", token, {
           httpOnly: true,
         });
-        res.send(token);
+        res.json(token);
       } else {
         res.send({ status: "fail", data: "Incorrect password." });
       }
