@@ -127,7 +127,7 @@ router.post("/login", async (req, res) => {
 
 // Read
 // log out
-router.get("/logout", async (req, res) => { //To add cookieJwtAuth
+router.get("/logout", cookieJwtAuth, async (req, res) => {
   try {
     res.clearCookie("token");
     res.json({ status: "Successfully logged out." });
@@ -137,7 +137,7 @@ router.get("/logout", async (req, res) => { //To add cookieJwtAuth
 });
 
 // Retrieve one user, might not need this due to jotai
-// router.get("/read/:id", async (req, res) => { //To add cookieJwtAuth
+// router.get("/read/:id", cookieJwtAuth, async (req, res) => {
 //   const { id } = req.params;
 //   try {
 //     const userInfo = await prisma.User.findUnique({
@@ -152,8 +152,7 @@ router.get("/logout", async (req, res) => { //To add cookieJwtAuth
 // });
 
 // Update
-router.put("/settings/:id", async (req, res) => { //To add cookieJwtAuth
-  const { id } = req.params;
+router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
   try {
     const updateUser = await prisma.User.update({
       where: {
@@ -171,7 +170,7 @@ router.put("/settings/:id", async (req, res) => { //To add cookieJwtAuth
 });
 
 // Delete
-router.delete("/settings/:id", async (req, res) => { //To add cookieJwtAuth
+router.delete("/settings/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteUser = prisma.User.delete({
@@ -189,7 +188,11 @@ router.delete("/settings/:id", async (req, res) => { //To add cookieJwtAuth
         user_id: id,
       },
     });
-    const transaction = await prisma.$transaction([deletePosition, deleteBudget, deleteUser])
+    const transaction = await prisma.$transaction([
+      deletePosition,
+      deleteBudget,
+      deleteUser,
+    ]);
     res.clearCookie("token");
     res.send({ status: "Successfully deleted user." });
   } catch (error) {

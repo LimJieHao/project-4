@@ -1,10 +1,10 @@
 // Import
 const router = require("express").Router();
 const prisma = require("../server");
-const cookieJwtAuth = require("../middleware/cookieJwtAuth"); //To add cookie for every route
+const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addbud/:id", async (req, res) => {
+router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const newBudget = await prisma.Inc_Exp_Budget.create({
@@ -30,7 +30,7 @@ router.post("/addbud/:id", async (req, res) => {
 });
 
 // Read
-router.get("/", async (req, res) => {
+router.get("/", cookieJwtAuth, async (req, res) => {
   try {
     const budgetInfo = await prisma.Inc_Exp_Budget.findMany();
     res.send(budgetInfo);
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const budgetInfo = await prisma.Inc_Exp_Budget.findUnique({
@@ -54,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update
-router.put("/updatebud/:id", async (req, res) => {
+router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const updateBudget = await prisma.Inc_Exp_Budget.update({
@@ -81,7 +81,7 @@ router.put("/updatebud/:id", async (req, res) => {
 });
 
 // Delete
-router.delete("/removebud/:id", async (req, res) => {
+router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
     const { id } = req.params;
     try {
       const deleteBudget = await prisma.Inc_Exp_Budget.delete({
