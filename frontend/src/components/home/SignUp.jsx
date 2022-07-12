@@ -55,6 +55,7 @@ const SignUp = () => {
             required
             type="email"
             placeholder="Email"
+            autoComplete="Email"
             name="email"
             id="email"
             value={signUp.email}

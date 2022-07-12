@@ -47,6 +47,7 @@ const EditAccountSettings = () => {
               className="inputfield"
               required
               type="Email"
+              autoComplete="Email"
               placeholder="Email"
               name="Email"
               id="Email"

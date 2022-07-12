@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { userAtom } from "../App";
 import jwtDecode from "jwt-decode";
-import { useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -47,6 +46,7 @@ const Login = () => {
             required
             type="Email"
             placeholder="Email"
+            autoComplete="Email"
             name="Email"
             id="Email"
             value={login.username}
