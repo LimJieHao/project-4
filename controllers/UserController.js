@@ -70,19 +70,19 @@ router.get("/logout", async (req, res) => { //To add cookieJwtAuth
 });
 
 // Retrieve one user, might not need this due to jotai
-router.get("/read/:id", async (req, res) => { //To add cookieJwtAuth
-  const { id } = req.params;
-  try {
-    const userInfo = await prisma.User.findUnique({
-      where: {
-        id: id,
-      },
-    });
-    res.send(userInfo);
-  } catch (error) {
-    res.send({ status: "fail", data: "error" });
-  }
-});
+// router.get("/read/:id", async (req, res) => { //To add cookieJwtAuth
+//   const { id } = req.params;
+//   try {
+//     const userInfo = await prisma.User.findUnique({
+//       where: {
+//         id: id,
+//       },
+//     });
+//     res.send(userInfo);
+//   } catch (error) {
+//     res.send({ status: "fail", data: "error" });
+//   }
+// });
 
 // Update
 router.put("/settings/:id", async (req, res) => { //To add cookieJwtAuth

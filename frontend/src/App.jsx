@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { atom } from "jotai";
 import LeftSideBar from "./components/LeftSideBar";
-import Navbar from "./components/Navbar";
+import MainNavbar from "./pages/MainNavbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Budget from "./pages/Budget";
@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navbar />}>
+          <Route path="/" element={<MainNavbar />}>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
           </Route>

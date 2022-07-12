@@ -1,6 +1,6 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { userAtom } from "../App";
+import { userAtom } from "../../App";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ const Navbar = () => {
   const [user, setUser] = useAtom(userAtom);
 
   return (
-    <>
+    <div className="navbar">
       <Link to="/">Home</Link>
       <br />
 
@@ -18,9 +18,7 @@ const Navbar = () => {
           <br />
         </>
       )}
-
-      <Outlet />
-    </>
+    </div>
   );
 };
 
