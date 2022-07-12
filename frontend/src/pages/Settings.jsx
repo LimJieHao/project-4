@@ -5,7 +5,7 @@ import EditAccountSettings from "../components/settings/EditAccountSettings";
 import DeleteAccount from "../components/settings/DeleteAccount";
 
 const Settings = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
 

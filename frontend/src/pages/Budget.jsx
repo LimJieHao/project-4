@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../App";
 
 const Budget = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
 

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {atom} from "jotai"
+import { atom } from "jotai";
 import LeftSideBar from "./components/LeftSideBar";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -9,7 +9,7 @@ import Position from "./pages/Position";
 import Insights from "./pages/Insights";
 import Settings from "./pages/Settings";
 
-export const userAtom = atom({})
+export const userAtom = atom({});
 
 function App() {
   return (

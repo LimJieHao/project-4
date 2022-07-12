@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../App";
 
 const DeleteAccount = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [user, setUser] = useAtom(userAtom);
   const [deleteAcc, setDeleteAcc] = useState(false);

@@ -5,7 +5,7 @@ import { userAtom } from "../../App";
 import jwtDecode from "jwt-decode";
 
 const SignUp = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [signUp, setSignUp] = useState({
     email: "",

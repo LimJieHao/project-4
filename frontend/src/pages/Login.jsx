@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { userAtom } from "../App";
 import jwtDecode from "jwt-decode";
+import { useEffect } from "react";
 
 const Login = () => {
-  let navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -21,9 +22,9 @@ const Login = () => {
     });
   };
 
-  const handleSubmitLogin = (event) => {
+  const handleSubmitLogin = async (event) => {
     event.preventDefault();
-    fetch("/api/user/login", {
+    await fetch("/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +33,7 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => setUser(jwtDecode(data)));
-      navigate("/");
+      navigate("/app/budget")
   };
 
   return (
