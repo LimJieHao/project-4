@@ -54,7 +54,7 @@ const SignUp = () => {
             className="inputfield"
             required
             type="email"
-            placeholder="email"
+            placeholder="Email"
             name="email"
             id="email"
             value={signUp.email}
@@ -66,7 +66,7 @@ const SignUp = () => {
             className="inputfield"
             required
             type="password"
-            placeholder="password"
+            placeholder="Password"
             name="password"
             id="password"
             value={signUp.password}
