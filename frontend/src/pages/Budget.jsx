@@ -35,7 +35,7 @@ const Budget = () => {
   }, [month]);
 
   // Callback function from child
-  const handleChangeBudget = (str) => {
+  const handleChangeCalBudget = (str) => {
     setMonth(str);
   };
 
@@ -56,7 +56,7 @@ const Budget = () => {
       <BudgetCenter
         month={month}
         budget={budget}
-        handleChangeBudget={handleChangeBudget}
+        handleChangeCalBudget={handleChangeCalBudget}
         populateDataBudget={populateDataBudget}
         handleDeleteBudget={handleDeleteBudget}
       />
