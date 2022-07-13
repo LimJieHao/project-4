@@ -19,70 +19,6 @@ router.post("/signup", async (req, res) => {
       data: {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, saltRounds),
-        inc_exp_budget: {
-          create: [
-            {
-              description: "Paycheck 1",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "1",
-            },
-            {
-              description: "Paycheck 2",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "1",
-            },
-            {
-              description: "Electricity",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "2",
-            },
-            {
-              description: "Water",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "2",
-            },
-            {
-              description: "Internet",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "2",
-            },
-            {
-              description: "Netflix",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "3",
-            },
-            {
-              description: "Disney Plus",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "3",
-            },
-            {
-              description: "Food",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "4",
-            },
-            {
-              description: "Groceries",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "4",
-            },
-            {
-              description: "Credit Card",
-              planned_amt: 0.0,
-              actual_amt: 0.0,
-              inc_exp_id: "5",
-            },
-          ],
-        },
       },
     });
     const token = jwt.sign(user, process.env.SECRET_KEY, {
@@ -135,21 +71,6 @@ router.get("/logout", cookieJwtAuth, async (req, res) => {
     res.json({ status: "fail", data: "error" });
   }
 });
-
-// Retrieve one user, might not need this due to jotai
-// router.get("/read/:id", cookieJwtAuth, async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const userInfo = await prisma.User.findUnique({
-//       where: {
-//         id: id,
-//       },
-//     });
-//     res.send(userInfo);
-//   } catch (error) {
-//     res.send({ status: "fail", data: "error" });
-//   }
-// });
 
 // Update
 router.put("/settings/:id", cookieJwtAuth, async (req, res) => {

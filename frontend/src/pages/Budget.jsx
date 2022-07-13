@@ -26,16 +26,25 @@ const Budget = () => {
   const mthWord = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   const budgetCurMonth = mthWord[currentMonth.slice(currentMonth.length - 1, currentMonth.length) - 1]
   
+  // Callback to prepopulate data
+  const budgetPrepopulateData = () => {
+    useEffect(() => {
+      fetch(`/api/budget/${user.id}/`)
+        .then((response) => response.json())
+        .then((data) => setBudgetData(data))
+    }, []);
+  }
+
   // Fetch all relevant 
   useEffect(() => {
-    fetch(`/api/budget/${user.id}`)
+    fetch(`/api/budget/${user.id}/`)
       .then((response) => response.json())
       .then((data) => setBudgetData(data))
   }, []);
 
   return (
     <>
-      <BudgetCenter budgetCurMonth={budgetCurMonth} month={month} budgetData={budgetData}/>
+      <BudgetCenter budgetCurMonth={budgetCurMonth} month={month} budgetData={budgetData} budgetPrepopulateData={budgetPrepopulateData}/>
       <BudgetRightPanel budgetData={budgetData}/>
     </>
   );

@@ -16,7 +16,7 @@ const PORT = process.env.PORT ?? 2500;
 // Controllers
 const budgetController = require("./controllers/BudgetController");
 const categoryController = require("./controllers/CategoryController");
-const positionController = require("./controllers/PositionController");
+const positionController = require("./superseded/PositionController");
 const userController = require("./controllers/UserController");
 
 // middleware

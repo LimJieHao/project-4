@@ -4,7 +4,6 @@ import NavbarPage from "./pages/NavbarPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Budget from "./pages/Budget";
-import Position from "./pages/Position";
 import Insights from "./pages/Insights";
 import Settings from "./pages/Settings";
 import LeftSideBarPage from "./pages/LeftSideBarPage";
@@ -22,7 +21,6 @@ function App() {
           </Route>
           <Route path="/app" element={<LeftSideBarPage />}>
             <Route path="/app/budget" element={<Budget />} />
-            <Route path="/app/position" element={<Position />} />
             <Route path="/app/insights" element={<Insights />} />
             <Route path="/app/settings" element={<Settings />} />
           </Route>

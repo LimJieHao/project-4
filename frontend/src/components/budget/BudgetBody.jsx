@@ -1,19 +1,22 @@
 const BudgetBody = ({ budgetCurMonth, budgetData }) => {
-  console.log(budgetData[0]?.inc_exp_category.type);
-  console.log(budgetData[0]?.inc_exp_category.name);
-  console.log(budgetData[0]?.description);
-  console.log(budgetData[0]?.planned_amt);
-  console.log(budgetData[0]?.actual_amt);
   return (
     <>
-      <div>Budget for {budgetCurMonth}</div>
       <div className="budgettable">
-        <>
-          <div className="budgettitle"></div>
-          <div>Planned</div>
-          <div>Actual</div>
-        </>
+        <div className="budgettitle">Budget for {budgetCurMonth}</div>
+        <div className="budgetitem">Type</div>
+        <div className="budgetitem">Planned</div>
+        <div className="budgetitem">Actual</div>
       </div>
+      {budgetData.map((data) => (
+        <>
+          <div className="budgettable"  key={data.id}>
+            <div className="budgettitle" key={data.id}>{data.description}</div>
+            <div className="budgetitem" key={data.id}>{data.inc_exp_category.name}</div>
+            <div className="budgetitem" key={data.id}>{data.planned_amt.toFixed(2)}</div>
+            <div className="budgetitem" key={data.id}>{data.actual_amt.toFixed(2)}</div>
+          </div>
+        </>
+      ))}
     </>
   );
 };

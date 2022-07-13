@@ -1,18 +1,22 @@
 import BudgetHeader from "./BudgetHeader";
 import BudgetBody from "./BudgetBody";
 
-const BudgetCenter = ({budgetCurMonth, month, budgetData }) => {
-  // Callback function from budget header component
+const BudgetCenter = ({budgetCurMonth, month, budgetData, budgetPrepopulateData}) => {
+  // Callback function to budget header component
   const bcMonth = (str) => {
     budgetMonth(str);
   };
 
+  const bcPrepopulateData = () => {
+    budgetPrepopulateData()
+  }
+
   return (
     <div className="budgetcenter">
-      <BudgetHeader bcMonth={bcMonth} month={month}/>
+      <BudgetHeader bcMonth={bcMonth} month={month} bcPrepopulateData={bcPrepopulateData}/>
       <br />
       <br />
-      <BudgetBody budgetCurMonth={budgetCurMonth} budgetData={budgetData}/>
+      { budgetData.data === "error" ? "" : <BudgetBody budgetCurMonth={budgetCurMonth} budgetData={budgetData}/>}
     </div>
   );
 };

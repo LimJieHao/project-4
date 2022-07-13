@@ -29,6 +29,21 @@ router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
   }
 });
 
+router.post("/populate/:id/:month", cookieJwtAuth, async (req, res) => {
+  const { id } = req.params;
+  const { month } = req.params;
+  try {
+    const newBudget = await prisma.Inc_Exp_Budget.create({
+      data: {
+        user_id: id,       
+      },
+    });
+    res.send(newBudget);
+  } catch (error) {
+    res.send({ status: "fail", data: "error" });
+  }
+});
+
 // Read
 router.get("/", cookieJwtAuth, async (req, res) => {
   try {
@@ -44,7 +59,7 @@ router.get("/:id", cookieJwtAuth, async (req, res) => {
   try {
     const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
       where: {
-        user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81",
+        user_id: id,
       },
       include: {
         inc_exp_category: {},

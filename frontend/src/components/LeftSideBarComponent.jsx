@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { userAtom } from "../App";
 
@@ -19,8 +19,6 @@ const LeftSideBarComponent = () => {
       {user?.["email"] !== undefined ? (
         <>
           <Link to="/app/budget">Budget</Link>
-          <br />
-          <Link to="/app/position">Position</Link>
           <br />
           <Link to="/app/insights">Insights</Link>
           <br />

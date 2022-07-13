@@ -111,30 +111,46 @@ async function main() {
   //     ],
   //   });
 
-  const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
-    where: {
-      user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81",
+  // const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
+  //   where: {
+  //     user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81",
+  //   },
+  //   include: {
+  //     inc_exp_category: {},
+  //   },
+  //   orderBy: [
+  //     {
+  //       inc_exp_category: {
+  //         type: "desc",
+  //       },
+  //     },
+  //     {
+  //       inc_exp_category: {
+  //         name: "asc",
+  //       },
+  //     },
+  //     {
+  //       description: "asc"
+  //     }
+  //   ],
+  // });
+  // console.log(budgetInfo);
+  const newBudget = await prisma.Inc_Exp_Budget.create({
+    data: {
+      date: req.body.date,
+      planned_amt: req.body.planned_amt,
+      actual_amt: req.body.actual_amt,
+      merchant: req.body.merchant,
+      description: req.body.description,
+      note: req.body.note,
+      rec_type: req.body.rec_type,
+      rec_start_date: req.body.rec_start_date,
+      rec_end_date: req.body.rec_end_date,
+      rec_amt: req.body.rec_amt,
+      user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81", // To amend
+      inc_exp_id: "1", // To amend
     },
-    include: {
-      inc_exp_category: {},
-    },
-    orderBy: [
-      {
-        inc_exp_category: {
-          type: "desc",
-        },
-      },
-      {
-        inc_exp_category: {
-          name: "asc",
-        },
-      },
-      {
-        description: "asc"
-      }
-    ],
   });
-  console.log(budgetInfo);
 }
 
 main()

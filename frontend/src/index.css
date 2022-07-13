@@ -43,9 +43,13 @@
 
  .budgettable {
   display: flex;
-  column-gap: 100px;
+  column-gap: 50px;
 }
 
 .budgettitle {
-  width: 300px;
+  width: 180px;
+}
+
+.budgetitem {
+  width: 100px;
 }

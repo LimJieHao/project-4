@@ -15,18 +15,34 @@ model User {
   email              String                @unique
   password           String
   inc_exp_budget     Inc_Exp_Budget[]
+  asst_liab_position Asset_Liab_Position[]
 }
 
 model Inc_Exp_Category {
   id             String           @id @default(uuid())
   type           String
-  category       String           @unique
+  name           String           @unique
   inc_exp_budget Inc_Exp_Budget[]
+}
+
+model Asset_Liab_Position {
+  id             String         @id @default(uuid())
+  month          DateTime       @db.Date
+  balance        Float          @default(0.00)
+  quantity       Float          @default(0.00)
+  interest_rate  Float          @default(0.00)
+  merchant       String
+  description    String
+  note           String?
+  user           User           @relation(fields: [user_id], references: [id])
+  user_id        String
+  inc_exp_budget Inc_Exp_Budget @relation(fields: [inc_exp_id], references: [id])
+  inc_exp_id     String
 }
 
 model Inc_Exp_Budget {
   id                  String                @id @default(uuid())
-  date                DateTime              @db.Date
+  date                DateTime?             @db.Date
   planned_amt         Float                 @default(0.00)
   actual_amt          Float                 @default(0.00)
   merchant            String?
@@ -40,4 +56,5 @@ model Inc_Exp_Budget {
   user_id             String
   inc_exp_category    Inc_Exp_Category      @relation(fields: [inc_exp_id], references: [id])
   inc_exp_id          String
+  asset_liab_position Asset_Liab_Position[]
 }

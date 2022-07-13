@@ -1,4 +1,4 @@
-const BudgetHeader = ({bcMonth, month}) => {
+const BudgetHeader = ({bcMonth, month, bcPrepopulateData}) => {
   // For calculation of current month
   const dateFunc = new Date();
   const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : dateFunc.getMonth() + 1);
@@ -12,6 +12,10 @@ const BudgetHeader = ({bcMonth, month}) => {
     bcMonth(event.target.value)
   };
 
+  const populate = () => {
+    bcPrepopulateData()
+  }
+
   return (
     <>
       <label htmlFor="start">Start month:</label>
@@ -24,7 +28,7 @@ const BudgetHeader = ({bcMonth, month}) => {
         value={month}
         onChange={() => handleChange(event)}
       />
-      <div>HOW MUCH MORE TO BUDGET?</div>
+      <button onClick={() => populate()}>Pre-populate budget</button>
     </>
   );
 };
