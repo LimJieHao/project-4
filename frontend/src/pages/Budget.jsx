@@ -35,7 +35,7 @@ const Budget = () => {
   const populateDataBudget = () => {
     fetch(`/api/budget/populate/${user.id}/${dateISO}`,{method: "POST"})
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => setBudget(data));
   };
 
   // Initial fetch

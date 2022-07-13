@@ -12,7 +12,7 @@ router.post("/addbudcat/", cookieJwtAuth, async (req, res) => {
         type: req.body.type,
         category: req.body.category,
         planned_amt: req.body.planned_amt,
-        name: req.body.name
+        name: req.body.name,
       },
     });
     res.send(newBudget);
@@ -30,88 +30,108 @@ router.post("/populate/:id/:date", async (req, res) => {
         {
           user_id: id,
           date: date,
-          description: "Paycheck 1",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "1",
+          type: "Income",
+          category: "Income",
+          name: "Paycheck 1",
+          planned_amt: 0.0,
         },
-        {
-          user_id: id,
-          date: date,
-          description: "Paycheck 2",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "1",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Electricity",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "2",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Water",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "2",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Internet",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "2",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Netflix",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "3",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Disney Plus",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "3",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Food",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "4",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Groceries",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "4",
-        },
-        {
-          user_id: id,
-          date: date,
-          description: "Credit Card",
-          planned_amt: 0.00,
-          actual_amt: 0.00,
-          inc_exp_id: "5",
-        },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Income",
+        //   category: "Income",
+        //   name: "Paycheck 2",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Bills",
+        //   name: "Electricity",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Bills",
+        //   name: "Water",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Bills",
+        //   name: "Internet",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Subscriptions",
+        //   name: "Netflix",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Subscriptions",
+        //   name: "Disney Plus",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Spending",
+        //   name: "Food",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Spending",
+        //   name: "Groceries",
+        //   planned_amt: 0.0,
+        // },
+        // {
+        //   user_id: id,
+        //   date: date,
+        //   type: "Expense",
+        //   category: "Debt",
+        //   name: "Credit Card",
+        //   planned_amt: 0.0,
+        // },
       ],
     });
-    res.send(newBudget);
+    try {
+      const budgetInfo = await prisma.Budget_Category.findMany({
+        where: {
+          user_id: id,
+          date: date,
+        },
+        orderBy: [
+          {
+            type: "desc",
+          },
+          {
+            category: "asc",
+          },
+          {
+            name: "asc",
+          },
+        ],
+      });
+      res.send(budgetInfo);
+    } catch (error) {
+      res.send({ status: "fail", data: "error" });
+    }
   } catch (error) {
-    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
@@ -119,7 +139,7 @@ router.post("/populate/:id/:date", async (req, res) => {
 // Read
 router.get("/", cookieJwtAuth, async (req, res) => {
   try {
-    const budgetInfo = await prisma.Budget_Category.findMany();
+    const budgetInfo = await prisma.Budget_Category.findMany({});
     res.send(budgetInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
@@ -133,24 +153,17 @@ router.get("/:id/:date", async (req, res) => {
     const budgetInfo = await prisma.Budget_Category.findMany({
       where: {
         user_id: id,
-        date: date
-      },
-      include: {
-        inc_exp_category: {},
+        date: date,
       },
       orderBy: [
         {
-          inc_exp_category: {
-            type: "desc",
-          },
+          type: "desc",
         },
         {
-          inc_exp_category: {
-            category: "asc",
-          },
+          category: "asc",
         },
         {
-          description: "asc",
+          name: "asc",
         },
       ],
     });

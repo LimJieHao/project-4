@@ -22,7 +22,7 @@ model Budget_Category {
   id          String        @id @default(uuid())
   date        DateTime      @db.Date
   type        String
-  category    String        @unique
+  category    String        
   name        String
   planned_amt Float         @default(0.00)
   users       User          @relation(fields: [user_id], references: [id])

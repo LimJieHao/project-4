@@ -13,10 +13,10 @@ const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget })
 
   return (
     <div className="budgetcenter">
-      <BudgetHeader month={month} handleChangeBC={handleChangeBC} populateDataBC={populateDataBC}/>
+      <BudgetHeader month={month} budget={budget} handleChangeBC={handleChangeBC} populateDataBC={populateDataBC}/>
       <br />
       <br />
-      {/* <BudgetBody month={month} budget={budget}/> */}
+      <BudgetBody month={month} budget={budget}/>
     </div>
   );
 };

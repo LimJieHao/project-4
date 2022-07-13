@@ -36,9 +36,6 @@ CREATE TABLE "Transaction" (
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Budget_Category_category_key" ON "Budget_Category"("category");
-
 -- AddForeignKey
 ALTER TABLE "Budget_Category" ADD CONSTRAINT "Budget_Category_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 

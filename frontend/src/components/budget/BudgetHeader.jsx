@@ -1,4 +1,4 @@
-const BudgetHeader = ({ month, handleChangeBC, populateDataBC }) => {
+const BudgetHeader = ({ month, budget, handleChangeBC, populateDataBC }) => {
   //calculate the min month and max month
   let minMonth = (parseInt(month.substring(0, 4)) - 2) + "-01"
   let maxMonth = (parseInt(month.substring(0, 4)) + 2) + "-12"
@@ -23,7 +23,7 @@ const BudgetHeader = ({ month, handleChangeBC, populateDataBC }) => {
         value={month}
         onChange={() => handleChangeBH(event)}
       />
-      <button onClick={() => populateDataBH()}>Start budgeting</button>
+      { budget.length === 0 ? <button onClick={() => populateDataBH()}>Start budgeting</button>  : null }
     </>
   );
 };

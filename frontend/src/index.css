@@ -21,14 +21,14 @@
  .leftsidebar {
    display: block;
    height: 100%;
-   width: 10%;
+   width: 5%;
    background-color: cyan;
    position: fixed;
  }
 
  .budgetcenter {
-   margin-left: 10%;
-   padding: 1px 10px;
+   margin-left: 5%;
+   padding: 1px 20px;
  }
 
  .budgetrightpanel {
@@ -41,13 +41,14 @@
    padding: 10px;
  }
 
- .budgettable {
-  display: flex;
-  column-gap: 50px;
+.budgettitle {
+  display: block;
+  width: 180px;
 }
 
-.budgettitle {
-  width: 180px;
+.budgettable {
+  display: flex;
+  column-gap: 50px;
 }
 
 .budgetitem {
