@@ -4,70 +4,65 @@ const prisma = require("../server");
 const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addcat", cookieJwtAuth, async (req, res) => {
+router.post("/addtrans/", cookieJwtAuth, async (req, res) => {
   try {
-    const newCategory = await prisma.Transaction.create({
+    const newTransaction = await prisma.Transaction.create({
       data: {
-        type: req.body.type,
-        name: req.body.name,
+        date: req.body.date,
+        merchant: req.body.merchant,
+        actual_amt: req.body.actual_amt,
+        note: req.body.note
       },
     });
-    res.send(newCategory);
+    res.send(newTransaction);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
 });
 
 // Read
-router.get("/", cookieJwtAuth, async (req, res) => {
+router.get("/:userid", cookieJwtAuth, async (req, res) => {
+  const { userid } = req.params;
   try {
-    const categoryInfo = await prisma.Transaction.findMany();
-    res.send(categoryInfo);
-  } catch (error) {
-    res.send({ status: "fail", data: "error" });
-  }
-});
-
-router.get("/:id", cookieJwtAuth, async (req, res) => {
-  const { id } = req.params;
-  try {
-    const categoryInfo = await prisma.Transaction.findUnique({
+    const transactionInfo = await prisma.Transaction.findMany({
       where: {
-        id: id,
+        user_id: userid,
       },
     });
-    res.send(categoryInfo);
+    res.send(transactionInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
 });
 
 // Update
-router.put("/updatecat/:id", cookieJwtAuth, async (req, res) => {
-  const { id } = req.params;
+router.put("/updatetrans/:transid", cookieJwtAuth, async (req, res) => {
+  const { transid } = req.params;
   try {
-    const updateCategory = await prisma.Transaction.update({
+    const updateTransaction = await prisma.Transaction.update({
       where: {
-        id: id,
+        id: transid,
       },
       data: {
-        type: req.body.type,
-        name: req.body.name,
+        date: req.body.date,
+        merchant: req.body.merchant,
+        actual_amt: req.body.actual_amt,
+        note: req.body.note
       },
     });
-    res.send(updateCategory);
+    res.send(updateTransaction);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
 });
 
 // Delete
-router.delete("/removecat/:id", cookieJwtAuth, async (req, res) => {
-  const { id } = req.params;
+router.delete("/removetrans/:transid", cookieJwtAuth, async (req, res) => {
+  const { transid } = req.params;
   try {
     const deleteCategory = await prisma.Transaction.delete({
       where: {
-        id: id,
+        id: transid,
       },
     });
     res.send({ status: "Successfully deleted category." });

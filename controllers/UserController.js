@@ -84,7 +84,6 @@ router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
     });
     res.send(updateUser);
   } catch (error) {
-    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });

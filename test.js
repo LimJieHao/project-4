@@ -191,31 +191,31 @@ async function main() {
   //   ],
   // });
   
-  const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
-    where: {
-      user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
-      date: "2022-07-01T00:00:00.000Z",
-    },
-    include: {
-      inc_exp_category: {},
-    },
-    orderBy: [
-      {
-        inc_exp_category: {
-          type: "desc",
-        },
-      },
-      {
-        inc_exp_category: {
-          category: "asc",
-        },
-      },
-      {
-        description: "asc",
-      },
-    ],
-  });
-  console.log(budgetInfo)
+  // const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
+  //   where: {
+  //     user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //     date: "2022-07-01T00:00:00.000Z",
+  //   },
+  //   include: {
+  //     inc_exp_category: {},
+  //   },
+  //   orderBy: [
+  //     {
+  //       inc_exp_category: {
+  //         type: "desc",
+  //       },
+  //     },
+  //     {
+  //       inc_exp_category: {
+  //         category: "asc",
+  //       },
+  //     },
+  //     {
+  //       description: "asc",
+  //     },
+  //   ],
+  // });
+  // console.log(budgetInfo)
   // const newBudget = await prisma.Inc_Exp_Budget.createMany({
   //   data: [
   //     {

@@ -20,6 +20,7 @@ model User {
 
 model Budget_Category {
   id          String        @id @default(uuid())
+  date        DateTime      @db.Date
   type        String
   category    String        @unique
   name        String

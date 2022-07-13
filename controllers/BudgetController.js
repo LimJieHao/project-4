@@ -4,23 +4,15 @@ const prisma = require("../server");
 const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
-  const { id } = req.params;
+router.post("/addbudcat/", cookieJwtAuth, async (req, res) => {
   try {
     const newBudget = await prisma.Budget_Category.create({
       data: {
         date: req.body.date,
+        type: req.body.type,
+        category: req.body.category,
         planned_amt: req.body.planned_amt,
-        actual_amt: req.body.actual_amt,
-        merchant: req.body.merchant,
-        description: req.body.description,
-        note: req.body.note,
-        rec_type: req.body.rec_type,
-        rec_start_date: req.body.rec_start_date,
-        rec_end_date: req.body.rec_end_date,
-        rec_amt: req.body.rec_amt,
-        user_id: "06050c2c-abd9-4f5f-ada5-bb9f27a56019", // To amend
-        inc_exp_id: "1", // To amend
+        name: req.body.name
       },
     });
     res.send(newBudget);

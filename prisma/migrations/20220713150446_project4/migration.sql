@@ -10,6 +10,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Budget_Category" (
     "id" TEXT NOT NULL,
+    "date" DATE NOT NULL,
     "type" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "name" TEXT NOT NULL,
