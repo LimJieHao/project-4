@@ -42,8 +42,9 @@
  }
 
 .budgettitle {
-  display: block;
-  width: 180px;
+  display: flex;
+  column-gap: 20px;
+  margin-bottom: 10px;
 }
 
 .budgettable {
