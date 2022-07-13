@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "../../App";
 
-const EditAccountSettings = () => {
+const EditAccountSettings = ({ updateAccInfo }) => {
   const [user, setUser] = useAtom(userAtom);
   const [editAcc, setEditAcc] = useState(false);
   const [accInfo, setAccInfo] = useState({
@@ -28,7 +28,7 @@ const EditAccountSettings = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setAccInfo(data);
+        updateAccInfo(data);
       });
       setEditAcc(false);
   };

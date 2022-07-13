@@ -16,7 +16,7 @@ const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget })
       <BudgetHeader month={month} handleChangeBC={handleChangeBC} populateDataBC={populateDataBC}/>
       <br />
       <br />
-      <BudgetBody month={month} budget={budget}/>
+      {/* <BudgetBody month={month} budget={budget}/> */}
     </div>
   );
 };

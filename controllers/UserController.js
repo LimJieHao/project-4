@@ -71,6 +71,7 @@ router.get("/logout", cookieJwtAuth, async (req, res) => {
 
 // Update
 router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
+  const { id } = req.params;
   try {
     const updateUser = await prisma.User.update({
       where: {
@@ -83,6 +84,7 @@ router.put("/settings/:id", cookieJwtAuth, async (req, res) => {
     });
     res.send(updateUser);
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
@@ -96,18 +98,18 @@ router.delete("/settings/:id", cookieJwtAuth, async (req, res) => {
         id: id,
       },
     });
-    const deleteBudget = prisma.Inc_Exp_Budget.deleteMany({
+    const deleteBudget = prisma.Budget_Category.deleteMany({
       where: {
         user_id: id,
       },
     });
-    const deletePosition = prisma.Asset_Liab_Position.deleteMany({
+    const deleteTransaction = prisma.transaction.deleteMany({
       where: {
         user_id: id,
       },
     });
     const transaction = await prisma.$transaction([
-      deletePosition,
+      deleteTransaction,
       deleteBudget,
       deleteUser,
     ]);
