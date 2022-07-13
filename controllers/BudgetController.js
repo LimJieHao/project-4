@@ -35,102 +35,102 @@ router.post("/populate/:id/:date", async (req, res) => {
           name: "Paycheck 1",
           planned_amt: 0.0,
         },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Income",
-        //   category: "Income",
-        //   name: "Paycheck 2",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Bills",
-        //   name: "Electricity",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Bills",
-        //   name: "Water",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Bills",
-        //   name: "Internet",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Subscriptions",
-        //   name: "Netflix",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Subscriptions",
-        //   name: "Disney Plus",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Spending",
-        //   name: "Food",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Spending",
-        //   name: "Groceries",
-        //   planned_amt: 0.0,
-        // },
-        // {
-        //   user_id: id,
-        //   date: date,
-        //   type: "Expense",
-        //   category: "Debt",
-        //   name: "Credit Card",
-        //   planned_amt: 0.0,
-        // },
-      ],
-    });
-    try {
-      const budgetInfo = await prisma.Budget_Category.findMany({
-        where: {
+        {
           user_id: id,
           date: date,
+          type: "Income",
+          category: "Income",
+          name: "Paycheck 2",
+          planned_amt: 0.0,
         },
-        orderBy: [
-          {
-            type: "desc",
-          },
-          {
-            category: "asc",
-          },
-          {
-            name: "asc",
-          },
-        ],
-      });
-      res.send(budgetInfo);
-    } catch (error) {
-      res.send({ status: "fail", data: "error" });
-    }
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Bills",
+          name: "Electricity",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Bills",
+          name: "Water",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Bills",
+          name: "Internet",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Subscriptions",
+          name: "Netflix",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Subscriptions",
+          name: "Disney Plus",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Spending",
+          name: "Food",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Spending",
+          name: "Groceries",
+          planned_amt: 0.0,
+        },
+        {
+          user_id: id,
+          date: date,
+          type: "Expense",
+          category: "Debt",
+          name: "Credit Card",
+          planned_amt: 0.0,
+        },
+      ],
+    });
+  } catch (error) {
+    res.send({ status: "fail", data: "error" });
+  }
+  try {
+    const budgetInfo = await prisma.Budget_Category.findMany({
+      where: {
+        user_id: id,
+        date: date,
+      },
+      orderBy: [
+        {
+          type: "desc",
+        },
+        {
+          category: "asc",
+        },
+        {
+          name: "asc",
+        },
+      ],
+    });
+    res.send(budgetInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
@@ -204,11 +204,20 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
 router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
+    const deleteTransaction = prisma.transaction.deleteMany({
+      where: {
+        budget_id: id,
+      },
+    });
     const deleteBudget = await prisma.Budget_Category.delete({
       where: {
         id: id,
       },
     });
+    const budget = await prisma.$budget([
+      deleteTransaction,
+      deleteBudget,
+    ]);
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
     res.send({ status: "fail", data: "error" });

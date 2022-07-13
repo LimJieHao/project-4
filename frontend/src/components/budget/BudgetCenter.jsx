@@ -1,4 +1,4 @@
-const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget}) => {
+const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget, handleDeleteBudget }) => {
   //calculate the min month and max month
   let minMonth = parseInt(month.substring(0, 4)) - 2 + "-01";
   let maxMonth = parseInt(month.substring(0, 4)) + 2 + "-12";
@@ -15,6 +15,14 @@ const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget}) 
   const populateDataBC = () => {
     populateDataBudget();
   };
+
+  const handleEditBC = (id) => {
+    console.log(id)
+  };  
+
+  const handleDeleteBC = (id) => {
+    handleDeleteBudget(id);
+  };  
 
   return (
     <div className="budgetcenter">
@@ -47,6 +55,10 @@ const BudgetCenter = ({ month, budget, handleChangeBudget, populateDataBudget}) 
           <div className="budgetitem">{data.name}</div>
           <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
           <div className="budgetitem">to calculate</div>
+          <div>
+            <button className="budgetbutton" onClick={() => handleEditBC(data.id)}>Edit</button>
+            <button className="budgetbutton" onClick={() => handleDeleteBC(data.id)}>Delete</button>
+          </div>
         </div>
       ))}
     </div>

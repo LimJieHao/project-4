@@ -55,3 +55,8 @@
 .budgetitem {
   width: 100px;
 }
+
+.budgetbutton {
+  margin-right: 5px;
+  width: 75px;
+}

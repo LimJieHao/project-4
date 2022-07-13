@@ -27,6 +27,13 @@ const Budget = () => {
   const date = new Date(month + "-01");
   const dateISO = date.toISOString()
 
+  // Initial fetch
+  useEffect(() => {
+     fetch(`/api/budget/${user.id}/${dateISO}`)
+      .then((response) => response.json())
+      .then((data) => setBudget(data))
+  }, [month]);
+
   // Callback function from child
   const handleChangeBudget = (str) => {
     setMonth(str);
@@ -38,12 +45,11 @@ const Budget = () => {
       .then((data) => setBudget(data));
   };
 
-  // Initial fetch
-  useEffect(() => {
-    fetch(`/api/budget/${user.id}/${dateISO}`)
-      .then((response) => response.json())
-      .then((data) => setBudget(data))
-  }, [month]);
+  const handleDeleteBudget = (id) => {
+    fetch(`/api/budget/removebud/${id}`, { method: "DELETE" })
+    .then((response) => response.json())
+    .then((data) => {setBudget(budget.filter((b) => b.id !== id))});
+  };
 
   return (
     <>
@@ -52,6 +58,7 @@ const Budget = () => {
         budget={budget}
         handleChangeBudget={handleChangeBudget}
         populateDataBudget={populateDataBudget}
+        handleDeleteBudget={handleDeleteBudget}
       />
       <BudgetRightPanel />
     </>
