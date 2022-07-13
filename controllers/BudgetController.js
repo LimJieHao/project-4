@@ -7,7 +7,7 @@ const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const newBudget = await prisma.Inc_Exp_Budget.create({
+    const newBudget = await prisma.Budget_Category.create({
       data: {
         date: req.body.date,
         planned_amt: req.body.planned_amt,
@@ -33,7 +33,7 @@ router.post("/populate/:id/:date", async (req, res) => {
   const { id } = req.params;
   const { date } = req.params;
   try {
-    const newBudget = await prisma.Inc_Exp_Budget.createMany({
+    const newBudget = await prisma.Budget_Category.createMany({
       data: [
         {
           user_id: id,
@@ -127,7 +127,7 @@ router.post("/populate/:id/:date", async (req, res) => {
 // Read
 router.get("/", cookieJwtAuth, async (req, res) => {
   try {
-    const budgetInfo = await prisma.Inc_Exp_Budget.findMany();
+    const budgetInfo = await prisma.Budget_Category.findMany();
     res.send(budgetInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
@@ -138,7 +138,7 @@ router.get("/:id/:date", async (req, res) => {
   const { id } = req.params;
   const { date } = req.params;
   try {
-    const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
+    const budgetInfo = await prisma.Budget_Category.findMany({
       where: {
         user_id: id,
         date: date
@@ -172,7 +172,7 @@ router.get("/:id/:date", async (req, res) => {
 router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const updateBudget = await prisma.Inc_Exp_Budget.update({
+    const updateBudget = await prisma.Budget_Category.update({
       where: {
         id: id,
       },
@@ -199,7 +199,7 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
 router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteBudget = await prisma.Inc_Exp_Budget.delete({
+    const deleteBudget = await prisma.Budget_Category.delete({
       where: {
         id: id,
       },

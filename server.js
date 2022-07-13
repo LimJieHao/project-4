@@ -15,8 +15,7 @@ const PORT = process.env.PORT ?? 2500;
 
 // Controllers
 const budgetController = require("./controllers/BudgetController");
-const categoryController = require("./controllers/CategoryController");
-const positionController = require("./superseded/PositionController");
+const transactionController = require("./controllers/TransactionController");
 const userController = require("./controllers/UserController");
 
 // middleware
@@ -27,8 +26,7 @@ app.use(cookieParser());
 
 // Controllers
 app.use("/api/budget", budgetController);
-app.use("/api/category", categoryController);
-app.use("/api/position", positionController);
+app.use("/api/transaction", transactionController);
 app.use("/api/user", userController);
 
 app.get("/api/", (req, res) => {
