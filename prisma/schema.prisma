@@ -11,33 +11,32 @@ datasource db {
 }
 
 model User {
-  id                 String                @id @default(uuid())
-  email              String                @unique
-  password           String
-  inc_exp_budget     Inc_Exp_Budget[]
+  id              String            @id @default(uuid())
+  email           String            @unique
+  password        String
+  budget_category Budget_Category[]
+  transaction     Transaction[]
 }
 
-model Inc_Exp_Category {
-  id             String           @id @default(uuid())
-  type           String
-  category       String           @unique
-  inc_exp_budget Inc_Exp_Budget[]
+model Budget_Category {
+  id          String        @id @default(uuid())
+  type        String
+  category    String        @unique
+  name        String
+  planned_amt Float         @default(0.00)
+  users       User          @relation(fields: [user_id], references: [id])
+  user_id     String
+  Transaction Transaction[]
 }
 
-model Inc_Exp_Budget {
-  id                  String                @id @default(uuid())
-  date                DateTime              @db.Date
-  planned_amt         Float                 @default(0.00)
-  actual_amt          Float                 @default(0.00)
-  merchant            String?
-  description         String
-  note                String?
-  rec_type            String?
-  rec_start_date      DateTime?             @db.Date
-  rec_end_date        DateTime?             @db.Date
-  rec_amt             Float?                @default(0.00)
-  users               User                  @relation(fields: [user_id], references: [id])
-  user_id             String
-  inc_exp_category    Inc_Exp_Category      @relation(fields: [inc_exp_id], references: [id])
-  inc_exp_id          String
+model Transaction {
+  id              String          @id @default(uuid())
+  date            DateTime        @db.Date
+  merchant        String?
+  actual_amt      Float           @default(0.00)
+  note            String?
+  users           User            @relation(fields: [user_id], references: [id])
+  user_id         String
+  budget_category Budget_Category @relation(fields: [budget_id], references: [id])
+  budget_id       String
 }

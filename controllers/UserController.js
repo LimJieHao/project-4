@@ -13,9 +13,6 @@ const saltRounds = bcrypt.genSaltSync(10);
 router.post("/signup", async (req, res) => {
   try {
     const user = await prisma.User.create({
-      include: {
-        inc_exp_budget: true,
-      },
       data: {
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, saltRounds),

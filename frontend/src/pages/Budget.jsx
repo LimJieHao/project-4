@@ -14,41 +14,48 @@ const Budget = () => {
     navigate("/login");
   }
 
-  // For calculation of current month
+  // Calculate the current month for the state
   const dateFunc = new Date();
-  const currentMonth = dateFunc.getFullYear() + "-" + (dateFunc.getMonth() < 10 ? "0" + (dateFunc.getMonth() + 1) : dateFunc.getMonth() + 1);
+  const mthNum = dateFunc.getMonth() + 1 < 10 ? "0" + (dateFunc.getMonth() + 1) : dateFunc.getMonth() + 1;
+  const currentMth = dateFunc.getFullYear() + "-" + mthNum;
 
-  // All states
-  const [month, setMonth] = useState(currentMonth);
-  const [budgetData, setBudgetData] = useState([])  
+  // Month and budget State
+  const [month, setMonth] = useState(currentMth);
+  const [budget, setBudget] = useState([]);
 
-  // Returns the month in words for budget body component
-  const mthWord = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  const budgetCurMonth = mthWord[currentMonth.slice(currentMonth.length - 1, currentMonth.length) - 1]
-  
-  // Callback to prepopulate data
-  const budgetPrepopulateData = () => {
-    useEffect(() => {
-      fetch(`/api/budget/${user.id}/`)
-        .then((response) => response.json())
-        .then((data) => setBudgetData(data))
-    }, []);
-  }
+  // Convert month state to date ISO format for db fetching
+  const date = new Date(month + "-01");
+  const dateISO = date.toISOString()
 
-  // Fetch all relevant 
-  useEffect(() => {
-    fetch(`/api/budget/${user.id}/`)
+  // Callback function from child
+  const handleChangeBudget = (str) => {
+    setMonth(str);
+  };
+
+  const populateDataBudget = () => {
+    fetch(`/api/budget/populate/${user.id}/${dateISO}`,{method: "POST"})
       .then((response) => response.json())
-      .then((data) => setBudgetData(data))
-  }, []);
+      .then((data) => console.log(data));
+  };
+
+  // Initial fetch
+  useEffect(() => {
+    fetch(`/api/budget/${user.id}/${dateISO}`)
+      .then((response) => response.json())
+      .then((data) => setBudget(data))
+  }, [month]);
 
   return (
     <>
-      <BudgetCenter budgetCurMonth={budgetCurMonth} month={month} budgetData={budgetData} budgetPrepopulateData={budgetPrepopulateData}/>
-      <BudgetRightPanel budgetData={budgetData}/>
+      <BudgetCenter
+        month={month}
+        budget={budget}
+        handleChangeBudget={handleChangeBudget}
+        populateDataBudget={populateDataBudget}
+      />
+      <BudgetRightPanel />
     </>
   );
 };
 
 export default Budget;
- 

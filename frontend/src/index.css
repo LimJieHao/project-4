@@ -21,14 +21,14 @@
  .leftsidebar {
    display: block;
    height: 100%;
-   width: 15%;
+   width: 10%;
    background-color: cyan;
    position: fixed;
  }
 
  .budgetcenter {
-   margin-left: 15%;
-   padding: 1px 16px;
+   margin-left: 10%;
+   padding: 1px 10px;
  }
 
  .budgetrightpanel {

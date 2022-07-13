@@ -29,17 +29,97 @@ router.post("/addbud/:id", cookieJwtAuth, async (req, res) => {
   }
 });
 
-router.post("/populate/:id/:month", cookieJwtAuth, async (req, res) => {
+router.post("/populate/:id/:date", async (req, res) => {
   const { id } = req.params;
-  const { month } = req.params;
+  const { date } = req.params;
   try {
-    const newBudget = await prisma.Inc_Exp_Budget.create({
-      data: {
-        user_id: id,       
-      },
+    const newBudget = await prisma.Inc_Exp_Budget.createMany({
+      data: [
+        {
+          user_id: id,
+          date: date,
+          description: "Paycheck 1",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "1",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Paycheck 2",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "1",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Electricity",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "2",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Water",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "2",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Internet",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "2",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Netflix",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "3",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Disney Plus",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "3",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Food",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "4",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Groceries",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "4",
+        },
+        {
+          user_id: id,
+          date: date,
+          description: "Credit Card",
+          planned_amt: 0.00,
+          actual_amt: 0.00,
+          inc_exp_id: "5",
+        },
+      ],
     });
     res.send(newBudget);
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
@@ -54,12 +134,14 @@ router.get("/", cookieJwtAuth, async (req, res) => {
   }
 });
 
-router.get("/:id", cookieJwtAuth, async (req, res) => {
+router.get("/:id/:date", async (req, res) => {
   const { id } = req.params;
+  const { date } = req.params;
   try {
     const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
       where: {
         user_id: id,
+        date: date
       },
       include: {
         inc_exp_category: {},
@@ -72,7 +154,7 @@ router.get("/:id", cookieJwtAuth, async (req, res) => {
         },
         {
           inc_exp_category: {
-            name: "asc",
+            category: "asc",
           },
         },
         {

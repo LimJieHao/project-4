@@ -81,76 +81,226 @@ async function main() {
   //       {
   //         id: "1",
   //         type: "Income",
-  //         name: "Income",
+  //         category: "Income",
   //       },
   //       {
   //         id: "2",
   //         type: "Expense",
-  //         name: "Bills",
+  //         category: "Bills",
   //       },
   //       {
   //         id: "3",
   //         type: "Expense",
-  //         name: "Subscriptions",
+  //         category: "Subscriptions",
   //       },
   //       {
   //         id: "4",
   //         type: "Expense",
-  //         name: "Spendings",
+  //         category: "Spendings",
   //       },
   //       {
   //         id: "5",
   //         type: "Expense",
-  //         name: "Debt",
-  //       },
-  //       {
-  //         id: "6",
-  //         type: "Expense",
-  //         name: "Others",
+  //         category: "Debt",
   //       },
   //     ],
   //   });
 
-  // const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
-  //   where: {
-  //     user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81",
-  //   },
-  //   include: {
-  //     inc_exp_category: {},
-  //   },
-  //   orderBy: [
+  // const newBudget = await prisma.Inc_Exp_Budget.createMany({
+  //   data: [
   //     {
-  //       inc_exp_category: {
-  //         type: "desc",
-  //       },
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Paycheck 1",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "1",
   //     },
   //     {
-  //       inc_exp_category: {
-  //         name: "asc",
-  //       },
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Paycheck 2",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "1",
   //     },
   //     {
-  //       description: "asc"
-  //     }
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Electricity",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Water",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Internet",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Netflix",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "3",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Disney Plus",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "3",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Food",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "4",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Groceries",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "4",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Credit Card",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "5",
+  //     },
   //   ],
   // });
-  // console.log(budgetInfo);
-  const newBudget = await prisma.Inc_Exp_Budget.create({
-    data: {
-      date: req.body.date,
-      planned_amt: req.body.planned_amt,
-      actual_amt: req.body.actual_amt,
-      merchant: req.body.merchant,
-      description: req.body.description,
-      note: req.body.note,
-      rec_type: req.body.rec_type,
-      rec_start_date: req.body.rec_start_date,
-      rec_end_date: req.body.rec_end_date,
-      rec_amt: req.body.rec_amt,
-      user_id: "d8e850c6-75b4-4197-b4a4-e0590913bc81", // To amend
-      inc_exp_id: "1", // To amend
+  
+  const budgetInfo = await prisma.Inc_Exp_Budget.findMany({
+    where: {
+      user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+      date: "2022-07-01T00:00:00.000Z",
     },
+    include: {
+      inc_exp_category: {},
+    },
+    orderBy: [
+      {
+        inc_exp_category: {
+          type: "desc",
+        },
+      },
+      {
+        inc_exp_category: {
+          category: "asc",
+        },
+      },
+      {
+        description: "asc",
+      },
+    ],
   });
+  console.log(budgetInfo)
+  // const newBudget = await prisma.Inc_Exp_Budget.createMany({
+  //   data: [
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Paycheck 1",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "1",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Paycheck 2",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "1",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Electricity",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Water",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Internet",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "2",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Netflix",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "3",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Disney Plus",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "3",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Food",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "4",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Groceries",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "4",
+  //     },
+  //     {
+  //       user_id: "2d294a6b-9822-4fe2-8032-1ffc81ed561f",
+  //       date: "2022-07-01T00:00:00.000Z",
+  //       description: "Credit Card",
+  //       planned_amt: 0.0,
+  //       actual_amt: 0.0,
+  //       inc_exp_id: "5",
+  //     },
+  //   ],
+  // });
+  // console.log(newBudget)
 }
 
 main()
