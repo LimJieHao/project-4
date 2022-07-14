@@ -6,6 +6,7 @@ const BudgetCenter = ({
   handleChangeCalBudget,
   handleAddBudget,
   populateDataBudget,
+  deleteDataBudget,
   handleEditBudget,
   handleDeleteBudget,
 }) => {
@@ -53,6 +54,10 @@ const BudgetCenter = ({
 
   const populateDataBC = () => {
     populateDataBudget();
+  };
+
+  const deleteDataBC = () => {
+    deleteDataBudget();
   };
 
   const handleAddBC = (type) => {
@@ -139,7 +144,7 @@ const BudgetCenter = ({
       />
       {budget.income.length === 0 && budget.expense.length === 0 ? (
         <button onClick={() => populateDataBC()}>Start planning</button>
-      ) : null}
+      ) : <button onClick={() => deleteDataBC()}>Delete budget</button>}
       <br />
       <br />
 

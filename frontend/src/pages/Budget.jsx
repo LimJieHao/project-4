@@ -105,6 +105,12 @@ const Budget = () => {
       .then((data) => setBudget(data));
   };
 
+  const deleteDataBudget = () => {
+    fetch(`/api/budget/removebudbyuser/${user.id}`, { method: "DELETE" })
+      .then((response) => response.json())
+      .then((data) => setBudget({ income: [], expense: [] }));
+  };
+
   const handleDeleteBudget = (type, id) => {
     fetch(`/api/budget/removebud/${id}`, { method: "DELETE" })
       .then((response) => response.json())
@@ -131,6 +137,7 @@ const Budget = () => {
         handleChangeCalBudget={handleChangeCalBudget}
         handleAddBudget={handleAddBudget}
         populateDataBudget={populateDataBudget}
+        deleteDataBudget={deleteDataBudget}
         handleEditBudget={handleEditBudget}
         handleDeleteBudget={handleDeleteBudget}
       />

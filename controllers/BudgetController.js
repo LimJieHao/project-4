@@ -251,4 +251,25 @@ router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
   }
 });
 
+router.delete("/removebudbyuser/:id", cookieJwtAuth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleteTransaction = prisma.transaction.deleteMany({
+      where: {
+        user_id: id,
+      },
+    });
+
+    const deleteBudget = await prisma.Budget_Category.deleteMany({
+      where: {
+        user_id: id,
+      },
+    });
+    const budget = await prisma.$transaction([deleteTransaction, deleteBudget]);
+    res.send({ status: "Successfully deleted Budget." });
+  } catch (error) {
+    res.send({ status: "fail", data: "error" });
+  }
+});
+
 module.exports = router;
