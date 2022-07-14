@@ -4,24 +4,72 @@ const prisma = require("../server");
 const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addbudcat/", cookieJwtAuth, async (req, res) => {
+router.post("/addbudcat/:id/:date", cookieJwtAuth, async (req, res) => {
+  const { id } = req.params;
+  const { date } = req.params;
   try {
     const newBudget = await prisma.Budget_Category.create({
       data: {
-        date: req.body.date,
+        user_id: id,
+        date: date,
         type: req.body.type,
         category: req.body.category,
-        planned_amt: req.body.planned_amt,
         name: req.body.name,
+        planned_amt: req.body.planned_amt,
       },
     });
-    res.send(newBudget);
+    const budgetIncome = await prisma.budget_Category.findMany({
+      where: {
+        user_id: id,
+        date: date,
+        type: "Income",
+      },
+      select: {
+        type: true,
+        category: true,
+        name: true,
+        planned_amt: true,
+        id: true,
+      },
+      orderBy: [
+        {
+          category: "asc",
+        },
+        {
+          name: "asc",
+        },
+      ],
+    });
+    const budgetExpense = await prisma.budget_Category.findMany({
+      where: {
+        user_id: id,
+        date: date,
+        type: "Expense",
+      },
+      select: {
+        type: true,
+        category: true,
+        name: true,
+        planned_amt: true,
+        id: true,
+      },
+      orderBy: [
+        {
+          category: "asc",
+        },
+        {
+          name: "asc",
+        },
+      ],
+    });
+    const budgetInfo = { income: budgetIncome, expense: budgetExpense };
+    res.send(budgetInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }
 });
 
-router.post("/populate/:id/:date", async (req, res) => {
+router.post("/populate/:id/:date", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   const { date } = req.params;
   try {
@@ -31,7 +79,7 @@ router.post("/populate/:id/:date", async (req, res) => {
           user_id: id,
           date: date,
           type: "Income",
-          category: "Income",
+          category: "Salary",
           name: "Paycheck 1",
           planned_amt: 0.0,
         },
@@ -39,8 +87,8 @@ router.post("/populate/:id/:date", async (req, res) => {
           user_id: id,
           date: date,
           type: "Income",
-          category: "Income",
-          name: "Paycheck 2",
+          category: "Dividend",
+          name: "Investment",
           planned_amt: 0.0,
         },
         {
@@ -124,7 +172,7 @@ router.post("/populate/:id/:date", async (req, res) => {
         category: true,
         name: true,
         planned_amt: true,
-        id: true
+        id: true,
       },
       orderBy: [
         {
@@ -146,7 +194,7 @@ router.post("/populate/:id/:date", async (req, res) => {
         category: true,
         name: true,
         planned_amt: true,
-        id: true
+        id: true,
       },
       orderBy: [
         {
@@ -165,16 +213,7 @@ router.post("/populate/:id/:date", async (req, res) => {
 });
 
 // Read
-router.get("/", cookieJwtAuth, async (req, res) => {
-  try {
-    const budgetInfo = await prisma.Budget_Category.findMany({});
-    res.send(budgetInfo);
-  } catch (error) {
-    res.send({ status: "fail", data: "error" });
-  }
-});
-
-router.get("/:id/:date", async (req, res) => {
+router.get("/:id/:date", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   const { date } = req.params;
   try {
@@ -189,7 +228,7 @@ router.get("/:id/:date", async (req, res) => {
         category: true,
         name: true,
         planned_amt: true,
-        id: true
+        id: true,
       },
     });
     const budgetExpense = await prisma.budget_Category.findMany({
@@ -203,11 +242,11 @@ router.get("/:id/:date", async (req, res) => {
         category: true,
         name: true,
         planned_amt: true,
-        id: true
+        id: true,
       },
     });
     const budgetInfo = { income: budgetIncome, expense: budgetExpense };
-    res.send(budgetInfo)
+    res.send(budgetInfo);
   } catch (error) {
     console.log(error);
     res.send({ status: "fail", data: "error" });
@@ -250,12 +289,13 @@ router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
         budget_id: id,
       },
     });
+
     const deleteBudget = await prisma.Budget_Category.delete({
       where: {
         id: id,
       },
     });
-    const budget = await prisma.$budget([deleteTransaction, deleteBudget]);
+    const budget = await prisma.$transaction([deleteTransaction, deleteBudget]);
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
     res.send({ status: "fail", data: "error" });
