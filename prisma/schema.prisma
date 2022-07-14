@@ -25,7 +25,7 @@ model Budget_Category {
   category    String        
   name        String
   planned_amt Float         @default(0.00)
-  users       User          @relation(fields: [user_id], references: [id])
+  users       User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String
   Transaction Transaction[]
 }
@@ -36,8 +36,8 @@ model Transaction {
   merchant        String?
   actual_amt      Float           @default(0.00)
   note            String?
-  users           User            @relation(fields: [user_id], references: [id])
+  users           User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id         String
-  budget_category Budget_Category @relation(fields: [budget_id], references: [id])
+  budget_category Budget_Category @relation(fields: [budget_id], references: [id], onDelete: Cascade)
   budget_id       String
 }

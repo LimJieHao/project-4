@@ -25,18 +25,41 @@ const Budget = () => {
   // Month and budget State
   const [month, setMonth] = useState(currentMth);
   const [budget, setBudget] = useState({ income: [], expense: [] });
+  const [toggleTrans, setToggleTrans] = useState(false);
+  const [viewTrans, setViewTrans] = useState([]);
 
   // Convert month state to date ISO format for db fetching
   const date = new Date(month + "-01");
   const dateISO = date.toISOString();
+
+  // calculate the first date of the month and last day of the month
+  const lastDayCalc = (y, m) => {
+    return new Date(y, m, 0).getDate().toString();
+  };
+  const firstDayMth = month + "-01";
+  const lastDayMth =
+    month +
+    "-" +
+    lastDayCalc(
+      month.substring(0, 4),
+      Number(month.substring(month.length - 2, month.length))
+    );
+  const startMth = new Date(firstDayMth);
+  const startMthISO = startMth.toISOString();
+  const endMth = new Date(lastDayMth);
+  const endMthISO = endMth.toISOString();
 
   // Initial fetch
   useEffect(() => {
     fetch(`/api/budget/${user.id}/${dateISO}`)
       .then((response) => response.json())
       .then((data) => setBudget(data));
-  }, [month]);
 
+    fetch(`/api/transaction/${user.id}/${startMthISO}/${endMthISO}`)
+      .then((response) => response.json())
+      .then((data) => setViewTrans(data));
+  }, [month]);
+  
   // Callback function from child
   const handleChangeCalBudget = (str) => {
     setMonth(str);
@@ -106,9 +129,11 @@ const Budget = () => {
   };
 
   const deleteDataBudget = () => {
-    fetch(`/api/budget/removebudbyuser/${user.id}`, { method: "DELETE" })
+    fetch(`/api/budget/removebudbyuser/${user.id}/${startMthISO}/${endMthISO}`, { method: "DELETE" })
       .then((response) => response.json())
-      .then((data) => setBudget({ income: [], expense: [] }));
+      .then((data) => 
+      setBudget({ income: [], expense: [] }))
+      setViewTrans([]);
   };
 
   const handleDeleteBudget = (type, id) => {
@@ -129,9 +154,30 @@ const Budget = () => {
       });
   };
 
-  const addTransactionBudget = (type, data) => {
-    console.log("hello")
-  }
+  const viewTransactionBudget = (type) => {
+    setToggleTrans(true);
+    fetch(
+      `/api/transaction/read/${user.id}/${startMthISO}/${endMthISO}/${type.id}`
+    )
+      .then((response) => response.json())
+      .then((data) => setViewTrans(data));
+  };
+
+  const closeTransBRP = () => {
+    setToggleTrans(false);
+  };
+
+  const transCreateBRP = () => {
+    console.log("hello");
+  };
+
+  const transEditBRP = () => {
+    console.log("hello");
+  };
+
+  const transDeleteBRP = () => {
+    console.log("hello");
+  };
 
   return (
     <>
@@ -144,9 +190,19 @@ const Budget = () => {
         deleteDataBudget={deleteDataBudget}
         handleEditBudget={handleEditBudget}
         handleDeleteBudget={handleDeleteBudget}
-        addTransactionBudget={addTransactionBudget}
+        viewTransactionBudget={viewTransactionBudget}
       />
-      <BudgetRightPanel />
+      {toggleTrans === true ? (
+        <BudgetRightPanel
+          viewTrans={viewTrans}
+          transCreateBRP={transCreateBRP}
+          transEditBRP={transEditBRP}
+          transDeleteBRP={transDeleteBRP}
+          closeTransBRP={closeTransBRP}
+        />
+      ) : (
+        "null"
+      )}
     </>
   );
 };

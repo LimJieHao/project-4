@@ -21,13 +21,57 @@ router.post("/addtrans/", cookieJwtAuth, async (req, res) => {
 });
 
 // Read
-router.get("/:userid", cookieJwtAuth, async (req, res) => {
+router.get("/read/:userid/:startmth/:endmonth/:type", cookieJwtAuth, async (req, res) => {
   const { userid } = req.params;
+  const { startmth } = req.params;
+  const { endmth } = req.params;
+  const { type } = req.params;
   try {
     const transactionInfo = await prisma.Transaction.findMany({
       where: {
         user_id: userid,
+        budget_id: type,
+        date: {
+          lte: endmth,
+          gte: startmth,
+        },
       },
+      orderBy: [
+        {
+          date: "asc",
+        },
+        {
+          merchant: "asc",
+        },
+      ],
+    });
+    res.send(transactionInfo);
+  } catch (error) {
+    res.send({ status: "fail", data: "error" });
+  }
+});
+
+router.get("/:userid/:startmth/:endmth/", cookieJwtAuth, async (req, res) => {
+  const { userid } = req.params;
+  const { startmth } = req.params;
+  const { endmth } = req.params;
+  try {
+    const transactionInfo = await prisma.Transaction.findMany({
+      where: {
+        user_id: userid,
+        date: {
+          lte: endmth,
+          gte: startmth,
+        },
+      },
+      orderBy: [
+        {
+          date: "asc",
+        },
+        {
+          merchant: "asc",
+        },
+      ],
     });
     res.send(transactionInfo);
   } catch (error) {

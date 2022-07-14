@@ -301,32 +301,107 @@ async function main() {
   //   ],
   // });
   // console.log(newBudget)
-  const getUser = await prisma.budget_Category.findMany({
-    where: {
-      user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
-      type: "Income"
-    },
-    select: {
-      type: true,
-      category: true,
-      name: true,
-      planned_amt: true,
-    },
-  })
-  const getUser1 = await prisma.budget_Category.findMany({
-    where: {
-      user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
-      type: "Expense"
-    },
-    select: {
-      type: true,
-      category: true,
-      name: true,
-      planned_amt: true,
-    },
-  })
-  const obj = {"Income":getUser,"Expense":getUser1}
-  console.log(obj)
+  // const getUser = await prisma.budget_Category.findMany({
+  //   where: {
+  //     user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
+  //     type: "Income"
+  //   },
+  //   select: {
+  //     type: true,
+  //     category: true,
+  //     name: true,
+  //     planned_amt: true,
+  //   },
+  // })
+  // const getUser1 = await prisma.budget_Category.findMany({
+  //   where: {
+  //     user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
+  //     type: "Expense"
+  //   },
+  //   select: {
+  //     type: true,
+  //     category: true,
+  //     name: true,
+  //     planned_amt: true,
+  //   },
+  // })
+  // const obj = {"Income":getUser,"Expense":getUser1}
+  // console.log(obj)
+  const newBudget = await prisma.transaction.createMany({
+    data: [
+      {
+        date: "2022-07-20T00:00:00.000Z",
+        merchant: "Company",
+        actual_amt: 5500,
+        note: "July 2022 pay",
+        user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+        budget_id: "db8a1096-3c7f-4c84-bf1c-886459efc875", 
+      },
+      {
+        date: "2022-07-15T00:00:00.000Z",
+        merchant: "SGX",
+        actual_amt: 500,
+        note: "IBM shares",
+        user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+        budget_id: "ae5bdbcb-1731-4e3d-8064-4384c2cacddd", 
+      },
+      {
+        date: "2022-07-01T00:00:00.000Z",
+        merchant: "Grabfood",
+        actual_amt: 20,
+        note: "Lunch",
+        user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+      },
+      {
+        date: "2022-07-01T00:00:00.000Z",
+        merchant: "Grabfood",
+        actual_amt: 50,
+        note: "Dinner",
+        user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+      },
+      {
+        date: "2022-07-02T00:00:00.000Z",
+        merchant: "Happy hour",
+        actual_amt: 100,
+        note: "Lunch",
+        user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+      },
+    ],
+  });
+  // console.log(newBudget)
+  // const transactionInfo = await prisma.Transaction.findMany({
+  //   where: {
+  //     user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+  //     budget_id: "a1f4ae03-ebb3-441a-9801-7f1ae5578763",
+  //     date: {
+  //       lte: "2022-07-31T00:00:00.000Z",
+  //       gte: "2022-07-01T00:00:00.000Z",
+  //     },
+  //   },
+  // });
+  // console.log(transactionInfo);
+  // const transactionInfo = await prisma.Transaction.findMany({
+  //   where: {
+  //     user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
+  //     budget_id: "a1f4ae03-ebb3-441a-9801-7f1ae5578763",
+  //     date: {
+  //       lte: "2022-06-30T00:00:00.000Z",
+  //       gte: "2022-06-01T00:00:00.000Z",
+  //     },
+  //   },
+  //   orderBy: [
+  //     {
+  //       date: "asc",
+  //     },
+  //     {
+  //       merchant: "asc",
+  //     },
+  //   ],
+  // });
+  // console.log(transactionInfo);
 }
 
 main()

@@ -35,15 +35,15 @@ router.post("/populate/:id/:date", cookieJwtAuth, async (req, res) => {
           date: date,
           type: "Income",
           category: "Salary",
-          name: "Paycheck 1",
+          name: "Paycheck",
           planned_amt: 0.0,
         },
         {
           user_id: id,
           date: date,
           type: "Income",
-          category: "Dividend",
-          name: "Investment",
+          category: "Investment",
+          name: "Dividend",
           planned_amt: 0.0,
         },
         {
@@ -247,27 +247,28 @@ router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
     const budget = await prisma.$transaction([deleteTransaction, deleteBudget]);
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
 
-router.delete("/removebudbyuser/:id", cookieJwtAuth, async (req, res) => {
+router.delete("/removebudbyuser/:id/:startmth/:endmth/", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
+  const { startmth } = req.params;
+  const { endmth } = req.params;
   try {
-    const deleteTransaction = prisma.transaction.deleteMany({
-      where: {
-        user_id: id,
-      },
-    });
-
     const deleteBudget = await prisma.Budget_Category.deleteMany({
       where: {
         user_id: id,
+        date: {
+          lte: endmth,
+          gte: startmth,
+        },
       },
     });
-    const budget = await prisma.$transaction([deleteTransaction, deleteBudget]);
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });

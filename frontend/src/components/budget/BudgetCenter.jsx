@@ -9,7 +9,7 @@ const BudgetCenter = ({
   deleteDataBudget,
   handleEditBudget,
   handleDeleteBudget,
-  addTransactionBudget,
+  viewTransactionBudget,
 }) => {
   const [toggleAdd, setToggleAdd] = useState({
     income: false,
@@ -62,7 +62,19 @@ const BudgetCenter = ({
   };
 
   const handleAddBC = (type) => {
-    setToggleAdd({ ...toggleAdd, [type]: true });
+    if (type === "income") {
+      setToggleAdd({
+        ...toggleAdd,
+        income: true,
+        expense: false,
+      });
+    } else if (type === "expense") {
+      setToggleAdd({
+        ...toggleAdd,
+        income: false,
+        expense: true,
+      });
+    }
   };
 
   const handleAddSubmitBC = (event, type) => {
@@ -84,7 +96,19 @@ const BudgetCenter = ({
 
   const handleEditBC = (type, data) => {
     setItem(data);
-    setToggleEdit({ ...toggleEdit, [type]: data.id });
+    if (type === "income") {
+      setToggleEdit({
+        ...toggleEdit,
+        income: data.id,
+        expense: -1,
+      });
+    } else if (type === "expense") {
+      setToggleEdit({
+        ...toggleEdit,
+        income: -1,
+        expense: data.id,
+      });
+    }
   };
 
   const submitEditBC = (type, data) => {
@@ -130,8 +154,8 @@ const BudgetCenter = ({
     });
   };
 
-  const addTransactionBC = (type, data) => {
-    addTransactionBudget(type, data);
+  const viewTransactionBC = (data) => {
+    viewTransactionBudget(data);
   };
 
   return (
@@ -161,8 +185,8 @@ const BudgetCenter = ({
         <div>Budget for {monthWord[currentMonthIndex] + " " + year}</div>
       </div>
       <div className="budgetcontainer">
-        <div className="budgettitle">
-          Income
+        <div className="budget-title-container">
+          <div className="budgettitle">Income</div>
           <button
             className="budgetbutton"
             onClick={() => handleAddBC("income")}
@@ -175,7 +199,6 @@ const BudgetCenter = ({
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
           <div className="budgetitem">Actual</div>
-          <div className="budgetitem">Remaining</div>
         </div>
 
         {/* display of all income items */}
@@ -214,12 +237,17 @@ const BudgetCenter = ({
               </div>
             </div>
           ) : (
-            <div className="budgetdata">
-              <div className="budgettable" key={data.id}>
+            <div className="budgetdata" key={data.id}>
+              <div className="budgettable" >
                 <div className="budgetitem">{data.category}</div>
-                <div className="budgetitem">{data.name}</div>
+                {/* <div className="budgetitem">{data.name}</div> */}
+                <button
+                  className="budgetbutton longbutton"
+                  onClick={() => viewTransactionBC(data)}
+                >
+                  {data.name}
+                </button>
                 <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-                <div className="budgetitem">to calculate</div>
                 <div className="budgetitem">to calculate</div>
                 <div className="budgetbuttondiv">
                   <button
@@ -234,12 +262,12 @@ const BudgetCenter = ({
                   >
                     Delete
                   </button>
-                  <button
+                  {/* <button
                     className="budgetbutton longbutton"
-                    onClick={() => addTransactionBC("income", data)}
+                    onClick={() => viewTransactionBC(data)}
                   >
-                    Add actual
-                  </button>
+                    View actual
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -308,8 +336,8 @@ const BudgetCenter = ({
       {/* budget expense summary table */}
       {/* budget expense summary table header */}
       <div className="budgetcontainer">
-        <div className="budgettitle">
-          Expense
+        <div className="budget-title-container">
+          <div className="budgettitle">Expense</div>
           <button
             className="budgetbutton"
             onClick={() => handleAddBC("expense")}
@@ -322,7 +350,6 @@ const BudgetCenter = ({
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
           <div className="budgetitem">Actual</div>
-          <div className="budgetitem">Remaining</div>
         </div>
 
         {/* display of all expense items */}
@@ -361,12 +388,17 @@ const BudgetCenter = ({
               </div>
             </div>
           ) : (
-            <div className="budgetdata">
-              <div className="budgettable" key={data.id}>
+            <div className="budgetdata" key={data.id}>
+              <div className="budgettable">
                 <div className="budgetitem">{data.category}</div>
-                <div className="budgetitem">{data.name}</div>
+                {/* <div className="budgetitem">{data.name}</div> */}
+                <button
+                  className="budgetbutton longbutton"
+                  onClick={() => viewTransactionBC(data)}
+                >
+                  {data.name}
+                </button>
                 <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-                <div className="budgetitem">to calculate</div>
                 <div className="budgetitem">to calculate</div>
                 <div className="budgetbuttondiv">
                   <button
@@ -381,12 +413,12 @@ const BudgetCenter = ({
                   >
                     Delete
                   </button>
-                  <button
+                  {/* <button
                     className="budgetbutton longbutton"
-                    onClick={() => addTransactionBC("expense", data)}
+                    onClick={() => viewTransactionBC(data)}
                   >
-                    Add actual
-                  </button>
+                    View actual
+                  </button> */}
                 </div>
               </div>
             </div>
