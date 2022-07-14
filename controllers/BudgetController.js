@@ -192,7 +192,61 @@ router.get("/:id/:date", cookieJwtAuth, async (req, res) => {
         id: true,
       },
     });
-    const budgetInfo = { income: budgetIncome, expense: budgetExpense };
+
+    const budgetIdTotal = await prisma.transaction.groupBy({
+      by: ["budget_id"],
+      _sum: {
+        actual_amt: true,
+      },
+    });
+
+    for (let i = 0; i < budgetIncome.length; i++) {
+      for (let j = 0; j < budgetIdTotal.length; j++) {
+        if (budgetIncome[i].id === budgetIdTotal[j].budget_id) {
+          budgetIncome[i].actual_amt = budgetIdTotal[j]._sum.actual_amt;
+        }
+      }
+    }
+
+    for (let i = 0; i < budgetExpense.length; i++) {
+      for (let j = 0; j < budgetIdTotal.length; j++) {
+        if (budgetExpense[i].id === budgetIdTotal[j].budget_id) {
+          budgetExpense[i].actual_amt = budgetIdTotal[j]._sum.actual_amt;
+        }
+      }
+    }
+    let totalPlannedIncome = budgetIncome.reduce((accumulator, Object) => {
+      return accumulator + Object.planned_amt;
+    }, 0);
+    totalPlannedIncome === null ? totalPlannedIncome = 0 : null
+    let totalActualIncome = budgetIncome.reduce((accumulator, Object) => {
+      return accumulator + Object.actual_amt;
+    }, 0);
+    totalActualIncome === null ? totalActualIncome = 0 : null
+    let totalPlannedExpense = budgetExpense.reduce((accumulator, Object) => {
+      return accumulator + Object.planned_amt;
+    }, 0);
+    totalPlannedExpense === null ? totalPlannedExpense = 0 : null
+    let totalActualExpense = budgetExpense.reduce((accumulator, Object) => {
+      return accumulator + Object.actual_amt;
+    }, 0);
+    totalActualExpense === null ? totalActualExpense = 0 : null
+    let remainPlanned= totalPlannedIncome - totalPlannedExpense
+    let remainActual = totalActualIncome - totalActualExpense
+    const totalAmt = [
+      {
+        type: "Income",
+        planned_amt: totalPlannedIncome,
+        actual_amt: totalActualIncome,
+      },
+      { type: "Expense", planned_amt: totalPlannedExpense, actual_amt: totalActualExpense },
+      { type: "Remaining", planned_amt: remainPlanned, actual_amt: remainActual}
+    ];
+    const budgetInfo = {
+      income: budgetIncome,
+      expense: budgetExpense,
+      total: totalAmt,
+    };
     res.send(budgetInfo);
   } catch (error) {
     console.log(error);
@@ -232,30 +286,34 @@ router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
     });
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send({ status: "fail", data: "error" });
   }
 });
 
-router.delete("/removebudbyuser/:id/:startmth/:endmth/", cookieJwtAuth, async (req, res) => {
-  const { id } = req.params;
-  const { startmth } = req.params;
-  const { endmth } = req.params;
-  try {
-    const deleteBudget = await prisma.Budget_Category.deleteMany({
-      where: {
-        user_id: id,
-        date: {
-          lte: endmth,
-          gte: startmth,
+router.delete(
+  "/removebudbyuser/:id/:startmth/:endmth/",
+  cookieJwtAuth,
+  async (req, res) => {
+    const { id } = req.params;
+    const { startmth } = req.params;
+    const { endmth } = req.params;
+    try {
+      const deleteBudget = await prisma.Budget_Category.deleteMany({
+        where: {
+          user_id: id,
+          date: {
+            lte: endmth,
+            gte: startmth,
+          },
         },
-      },
-    });
-    res.send({ status: "Successfully deleted Budget." });
-  } catch (error) {
-    console.log(error)
-    res.send({ status: "fail", data: "error" });
+      });
+      res.send({ status: "Successfully deleted Budget." });
+    } catch (error) {
+      console.log(error);
+      res.send({ status: "fail", data: "error" });
+    }
   }
-});
+);
 
 module.exports = router;
