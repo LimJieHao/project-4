@@ -134,6 +134,7 @@ const Budget = () => {
       .then((response) => response.json())
       .then((data) => setBudget({ income: [], expense: [] }));
     setViewTrans([]);
+    setToggleTrans(false)
   };
 
   const handleDeleteBudget = (type, id) => {
@@ -152,6 +153,8 @@ const Budget = () => {
           });
         }
       });
+      setViewTrans([])
+      setToggleTrans(false)
   };
 
   const viewTransactionBudget = (type) => {
