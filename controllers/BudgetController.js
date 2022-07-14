@@ -75,15 +75,7 @@ router.post("/populate/:id/:date", cookieJwtAuth, async (req, res) => {
           date: date,
           type: "Expense",
           category: "Subscriptions",
-          name: "Netflix",
-          planned_amt: 0.0,
-        },
-        {
-          user_id: id,
-          date: date,
-          type: "Expense",
-          category: "Subscriptions",
-          name: "Disney Plus",
+          name: "Online",
           planned_amt: 0.0,
         },
         {
