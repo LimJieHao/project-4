@@ -66,6 +66,39 @@ const Budget = () => {
       });
   };
 
+  const handleEditBudget = (type, data) => {
+    fetch(`/api/budget/updatebud/${data.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const pos = budget[type].findIndex((item) => item.id === data.id)
+        if (type === "income") {
+          setBudget({
+            income: [
+              ...budget.income.slice(0, pos),
+              data,
+              ...budget.income.slice(pos + 1),
+            ],
+            expense: [...budget.expense],
+          });
+        } else if (type === "expense") {
+          setBudget({
+            income: [...budget.income],
+            expense: [
+              ...budget.expense.slice(0, pos),
+              data,
+              ...budget.expense.slice(pos + 1),
+            ],
+          });
+        }
+      });
+  };
+
   const populateDataBudget = () => {
     fetch(`/api/budget/populate/${user.id}/${dateISO}`, { method: "POST" })
       .then((response) => response.json())
@@ -98,6 +131,7 @@ const Budget = () => {
         handleChangeCalBudget={handleChangeCalBudget}
         handleAddBudget={handleAddBudget}
         populateDataBudget={populateDataBudget}
+        handleEditBudget={handleEditBudget}
         handleDeleteBudget={handleDeleteBudget}
       />
       <BudgetRightPanel />

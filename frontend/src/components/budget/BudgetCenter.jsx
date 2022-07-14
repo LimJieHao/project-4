@@ -3,13 +3,20 @@ import { useState } from "react";
 const BudgetCenter = ({
   month,
   budget,
-  handleAddBudget,
   handleChangeCalBudget,
+  handleAddBudget,
   populateDataBudget,
+  handleEditBudget,
   handleDeleteBudget,
 }) => {
-  const [toggleAddInc, setToggleAddInc] = useState(false);
-  const [toggleAddExp, setToggleAddExp] = useState(false);
+  const [toggleAdd, setToggleAdd] = useState({
+    income: false,
+    expense: false,
+  });
+  const [toggleEdit, setToggleEdit] = useState({
+    income: -1,
+    expense: -1,
+  });
   const [item, setItem] = useState({
     type: "",
     category: "",
@@ -36,7 +43,8 @@ const BudgetCenter = ({
     "November",
     "December",
   ];
-  const currentMonthIndex = Number(month.substring(month.length - 2, month.length)) - 1
+  const currentMonthIndex =
+    Number(month.substring(month.length - 2, month.length)) - 1;
   const year = month.substring(0, 4);
 
   const handleChangeCalBC = (event) => {
@@ -48,22 +56,17 @@ const BudgetCenter = ({
   };
 
   const handleAddBC = (type) => {
-    if (type === "income") {
-      setToggleAddInc(true);
-    } else if (type === "expense") {
-      setToggleAddExp(true);
-    }
+    setToggleAdd({ ...toggleAdd, [type]: true });
   };
 
   const handleAddSubmitBC = (event, type) => {
     event.preventDefault();
     if (type === "income") {
       item.type = "Income";
-      setToggleAddInc(false);
     } else if (type === "expense") {
       item.type = "Expense";
-      setToggleAddExp(false);
     }
+    setToggleAdd({ ...toggleAdd, [type]: false });
     handleAddBudget(type, item);
     setItem({
       type: "",
@@ -73,8 +76,20 @@ const BudgetCenter = ({
     });
   };
 
-  const handleEditBC = (id) => {
-    console.log(id);
+  const handleEditBC = (type, data) => {
+    setItem(data);
+    setToggleEdit({ ...toggleEdit, [type]: data.id });
+  };
+
+  const submitEditBC = (type, data) => {
+    handleEditBudget(type, data)
+    setToggleEdit({ ...toggleEdit, [type]: -1 });
+    setItem({
+      type: "",
+      category: "",
+      name: "",
+      planned_amt: "",
+    });
   };
 
   const handleDeleteBC = (type, id) => {
@@ -93,6 +108,20 @@ const BudgetCenter = ({
         [key]: event.target.value,
       });
     }
+  };
+
+  const handleCancelBC = (key, type) => {
+    if (type === "add") {
+      setToggleAdd({ ...toggleAdd, [key]: false });
+    } else if (type === "edit") {
+      setToggleEdit({ ...toggleEdit, [key]: -1 });
+    }
+    setItem({
+      type: "",
+      category: "",
+      name: "",
+      planned_amt: "",
+    });
   };
 
   return (
@@ -129,7 +158,7 @@ const BudgetCenter = ({
             Add
           </button>
         </div>
-        <div className="budgettable">
+        <div className="budgettable tabletitle">
           <div className="budgetitem">Category</div>
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
@@ -137,32 +166,67 @@ const BudgetCenter = ({
         </div>
 
         {/* display of all income items */}
-        {budget.income.map((data) => (
-          <div className="budgettable" key={data.id}>
-            <div className="budgetitem">{data.category}</div>
-            <div className="budgetitem">{data.name}</div>
-            <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-            <div className="budgetitem">to calculate</div>
-            <div>
-              <button
-                className="budgetbutton"
-                onClick={() => handleEditBC(data.id)}
-              >
-                Edit
-              </button>
-              <button
-                className="budgetbutton"
-                onClick={() => handleDeleteBC("income", data.id)}
-              >
-                Delete
-              </button>
+        {budget.income.map((data) =>
+          toggleEdit.income === data.id ? (
+            <div className="inputtable" key={data.id}>
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "category")}
+                value={item.category}
+              />
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "name")}
+                value={item.name}
+              />
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "planned_amt")}
+                value={item.planned_amt}
+              />
+              <div className="inputitem extraitem"></div>
+              <div>
+                <button
+                  className="budgetbutton"
+                  onClick={() => submitEditBC("income", item)}
+                >
+                  Update
+                </button>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleCancelBC("income", "edit")}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ) : (
+            <div className="budgettable" key={data.id}>
+              <div className="budgetitem">{data.category}</div>
+              <div className="budgetitem">{data.name}</div>
+              <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
+              <div className="budgetitem">to calculate</div>
+              <div>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleEditBC("income", data)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleDeleteBC("income", data.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )
+        )}
       </div>
 
       {/* Form to add new items */}
-      {toggleAddInc === true ? (
+      {toggleAdd.income === true ? (
         <form
           className="budgetAddForm"
           method="post"
@@ -209,7 +273,10 @@ const BudgetCenter = ({
             />
             <br />
             <button>Add</button>
-            <button type="button" onClick={() => setToggleAddInc(false)}>
+            <button
+              type="button"
+              onClick={() => handleCancelBC("income", "add")}
+            >
               Cancel
             </button>
           </fieldset>
@@ -228,7 +295,7 @@ const BudgetCenter = ({
             Add
           </button>
         </div>
-        <div className="budgettable">
+        <div className="budgettable tabletitle">
           <div className="budgetitem">Category</div>
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
@@ -236,32 +303,67 @@ const BudgetCenter = ({
         </div>
 
         {/* display of all expense items */}
-        {budget.expense.map((data) => (
-          <div className="budgettable" key={data.id}>
-            <div className="budgetitem">{data.category}</div>
-            <div className="budgetitem">{data.name}</div>
-            <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-            <div className="budgetitem">to calculate</div>
-            <div>
-              <button
-                className="budgetbutton"
-                onClick={() => handleEditBC(data.id)}
-              >
-                Edit
-              </button>
-              <button
-                className="budgetbutton"
-                onClick={() => handleDeleteBC("expense", data.id)}
-              >
-                Delete
-              </button>
+        {budget.expense.map((data) =>
+          toggleEdit.expense === data.id ? (
+            <div className="inputtable" key={data.id}>
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "category")}
+                value={item.category}
+              />
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "name")}
+                value={item.name}
+              />
+              <input
+                className="inputitem"
+                onChange={() => handleChangeFormBC(event, "planned_amt")}
+                value={item.planned_amt}
+              />
+              <div className="inputitem extraitem"></div>
+              <div>
+                <button
+                  className="budgetbutton"
+                  onClick={() => submitEditBC("expense", item)}
+                >
+                  Update
+                </button>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleCancelBC("expense", "edit")}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ) : (
+            <div className="budgettable" key={data.id}>
+              <div className="budgetitem">{data.category}</div>
+              <div className="budgetitem">{data.name}</div>
+              <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
+              <div className="budgetitem">to calculate</div>
+              <div>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleEditBC("expense", data)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="budgetbutton"
+                  onClick={() => handleDeleteBC("expense", data.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )
+        )}
       </div>
 
       {/* Form to add new items */}
-      {toggleAddExp === true ? (
+      {toggleAdd.expense === true ? (
         <form
           className="budgetAddForm"
           method="post"
@@ -306,7 +408,10 @@ const BudgetCenter = ({
             />
             <br />
             <button>Add</button>
-            <button type="button" onClick={() => setToggleAddExp(false)}>
+            <button
+              type="button"
+              onClick={() => handleCancelBC("expense", "add")}
+            >
               Cancel
             </button>
           </fieldset>

@@ -217,16 +217,10 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
         id: id,
       },
       data: {
-        date: req.body.date,
-        planned_amt: req.body.planned_amt,
-        actual_amt: req.body.actual_amt,
-        merchant: req.body.merchant,
-        description: req.body.description,
-        note: req.body.note,
-        rec_type: req.body.rec_type,
-        rec_start_date: req.body.rec_start_date,
-        rec_end_date: req.body.rec_end_date,
-        rec_amt: req.body.rec_amt,
+        type: req.body.type,
+        category: req.body.category,
+        name: req.body.name,
+        planned_amt: req.body.planned_amt
       },
     });
     res.send(updateBudget);

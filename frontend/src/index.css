@@ -57,6 +57,8 @@ body {
   display: flex;
   align-items: center;
   column-gap: 20px;
+  font-weight: bold;
+  width: 100px;
 }
 
 .budgettable {
@@ -65,9 +67,27 @@ body {
   column-gap: 50px;
 }
 
+.tabletitle {
+  font-weight: bold;
+}
+
 .budgetAddForm {
   width: 800px;
   margin-bottom: 20px;
+}
+
+.inputtable {
+  display: flex;
+  align-items: center;
+  column-gap: 50px;
+}
+
+.inputitem {
+  width: 92px;
+}
+
+.extraitem {
+  width: 100px;
 }
 
 .budgetitem {
