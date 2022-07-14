@@ -18,52 +18,7 @@ router.post("/addbudcat/:id/:date", cookieJwtAuth, async (req, res) => {
         planned_amt: req.body.planned_amt,
       },
     });
-    const budgetIncome = await prisma.budget_Category.findMany({
-      where: {
-        user_id: id,
-        date: date,
-        type: "Income",
-      },
-      select: {
-        type: true,
-        category: true,
-        name: true,
-        planned_amt: true,
-        id: true,
-      },
-      orderBy: [
-        {
-          category: "asc",
-        },
-        {
-          name: "asc",
-        },
-      ],
-    });
-    const budgetExpense = await prisma.budget_Category.findMany({
-      where: {
-        user_id: id,
-        date: date,
-        type: "Expense",
-      },
-      select: {
-        type: true,
-        category: true,
-        name: true,
-        planned_amt: true,
-        id: true,
-      },
-      orderBy: [
-        {
-          category: "asc",
-        },
-        {
-          name: "asc",
-        },
-      ],
-    });
-    const budgetInfo = { income: budgetIncome, expense: budgetExpense };
-    res.send(budgetInfo);
+    res.send(newBudget);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
   }

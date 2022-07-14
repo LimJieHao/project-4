@@ -52,7 +52,17 @@ const Budget = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setBudget(data);
+        if (type === "income") {
+          setBudget({
+            income: [...budget.income, data],
+            expense: [...budget.expense],
+          });
+        } else if (type === "expense") {
+          setBudget({
+            income: [...budget.income],
+            expense: [...budget.expense, data],
+          });
+        }
       });
   };
 
@@ -79,7 +89,7 @@ const Budget = () => {
         }
       });
   };
-  console.log(budget);
+
   return (
     <>
       <BudgetCenter

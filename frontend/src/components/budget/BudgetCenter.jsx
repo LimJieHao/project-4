@@ -36,7 +36,7 @@ const BudgetCenter = ({
     "November",
     "December",
   ];
-  const currentMonth = month.substring(month.length - 1, month.length);
+  const currentMonthIndex = Number(month.substring(month.length - 2, month.length)) - 1
   const year = month.substring(0, 4);
 
   const handleChangeCalBC = (event) => {
@@ -58,19 +58,19 @@ const BudgetCenter = ({
   const handleAddSubmitBC = (event, type) => {
     event.preventDefault();
     if (type === "income") {
-      item.type = "Income"
+      item.type = "Income";
       setToggleAddInc(false);
     } else if (type === "expense") {
-      item.type = "Expense"
+      item.type = "Expense";
       setToggleAddExp(false);
     }
-    handleAddBudget(type, item)
+    handleAddBudget(type, item);
     setItem({
       type: "",
       category: "",
       name: "",
       planned_amt: "",
-    })
+    });
   };
 
   const handleEditBC = (id) => {
@@ -117,7 +117,7 @@ const BudgetCenter = ({
       {/* budget income summary table */}
       {/* budget income summary table header */}
       <div className="budgetheader">
-        <div>Budget for {monthWord[currentMonth - 1] + " " + year}</div>
+        <div>Budget for {monthWord[currentMonthIndex] + " " + year}</div>
       </div>
       <div className="budgetcontainer">
         <div className="budgettitle">
@@ -170,7 +170,9 @@ const BudgetCenter = ({
         >
           <fieldset>
             <legend>Add new income</legend>
-            <label className="FormLabel" htmlFor="category">Category</label>
+            <label className="FormLabel" htmlFor="category">
+              Category
+            </label>
             <input
               className="inputfield"
               required
