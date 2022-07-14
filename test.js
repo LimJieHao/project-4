@@ -301,6 +301,32 @@ async function main() {
   //   ],
   // });
   // console.log(newBudget)
+  const getUser = await prisma.budget_Category.findMany({
+    where: {
+      user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
+      type: "Income"
+    },
+    select: {
+      type: true,
+      category: true,
+      name: true,
+      planned_amt: true,
+    },
+  })
+  const getUser1 = await prisma.budget_Category.findMany({
+    where: {
+      user_id: "2eb2ab66-1ecb-45c4-8b5a-7248d73354ad",
+      type: "Expense"
+    },
+    select: {
+      type: true,
+      category: true,
+      name: true,
+      planned_amt: true,
+    },
+  })
+  const obj = {"Income":getUser,"Expense":getUser1}
+  console.log(obj)
 }
 
 main()

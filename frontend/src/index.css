@@ -31,6 +31,10 @@
    padding: 1px 20px;
  }
 
+ .budgetcontainer {
+  margin-bottom: 20px;
+}
+
  .budgetrightpanel {
    position: fixed;
    top: 0;
@@ -41,14 +45,22 @@
    padding: 10px;
  }
 
-.budgettitle {
+ .budgetheader {
   display: flex;
+  align-items: center;
   column-gap: 20px;
   margin-bottom: 10px;
 }
 
+.budgettitle {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
 .budgettable {
   display: flex;
+  align-items: center;
   column-gap: 50px;
 }
 

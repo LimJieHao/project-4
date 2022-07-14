@@ -21,7 +21,7 @@ const Budget = () => {
 
   // Month and budget State
   const [month, setMonth] = useState(currentMth);
-  const [budget, setBudget] = useState([]);
+  const [budget, setBudget] = useState({ "income" : [],"expense" : [] });
 
   // Convert month state to date ISO format for db fetching
   const date = new Date(month + "-01");
@@ -45,12 +45,24 @@ const Budget = () => {
       .then((data) => setBudget(data));
   };
 
-  const handleDeleteBudget = (id) => {
+  const handleDeleteBudget = (type, id) => {
     fetch(`/api/budget/removebud/${id}`, { method: "DELETE" })
     .then((response) => response.json())
-    .then((data) => {setBudget(budget.filter((b) => b.id !== id))});
+    .then((data) => {
+      if (type === "income") {
+        setBudget({
+          "income": budget[type].filter((b) => b.id !== id),
+          "expense": [...budget.expense],
+        }) 
+      } else if (type === "expense") {
+        setBudget({
+          "income": [...budget.income],
+          "expense": budget[type].filter((b) => b.id !== id),
+        }) 
+      }
+  });
   };
-
+  
   return (
     <>
       <BudgetCenter
