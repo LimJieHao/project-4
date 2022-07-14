@@ -10,7 +10,7 @@ const BudgetRightPanel = ({
   closeTransBRP,
 }) => {
   const [toggleAdd, setToggleAdd] = useState(false);
-  const [toggleEdit, setToggleEdit] = useState(false);
+  const [toggleEdit, setToggleEdit] = useState(-1);
   const [item, setItem] = useState({
     date: "",
     merchant: "",
@@ -25,7 +25,7 @@ const BudgetRightPanel = ({
     ? (maxDays = dayLimit[0])
     : (maxDays =
         dayLimit[Number(month.substring(month.length - 2, month.length))]);
-  console.log(maxDays)
+
   const handleChangeFormBRP = (event, key) => {
     if (key === "actual_amt") {
       setItem({
@@ -52,8 +52,12 @@ const BudgetRightPanel = ({
     });
   };
 
-  const handleCancelBRP = () => {
-    setToggleAdd(false);
+  const handleCancelBRP = (type) => {
+    if (type === "add") {
+      setToggleAdd(false);
+    } else if (type === "edit") {
+      setToggleEdit(-1)
+    }
     setItem({
       date: "",
       merchant: "",
@@ -62,8 +66,20 @@ const BudgetRightPanel = ({
     });
   };
 
-  const handleEditBRP = () => {
-    transEditBRP();
+  const handleEditBRP = (data) => {
+    setItem(data);
+    setToggleEdit(data.id)
+  };
+
+  const submitEditBRP = (data) => {
+    transEditBRP(data);
+    setToggleEdit(-1)
+    setItem({
+      date: "",
+      merchant: "",
+      actual_amt: "",
+      note: "",
+    });
   };
 
   const handleDeleteBRP = (id) => {
@@ -155,8 +171,8 @@ const BudgetRightPanel = ({
               onChange={() => handleChangeFormBRP(event, "actual_amt")}
             />
             <br />
-            <button>Add</button>
-            <button type="button" onClick={() => handleCancelBRP()}>
+            <button className="panelbutton">Add</button>
+            <button className="panelbutton" type="button" onClick={() => handleCancelBRP("add")}>
               Cancel
             </button>
           </fieldset>
@@ -164,25 +180,78 @@ const BudgetRightPanel = ({
       ) : null}
 
       {/* Actual Data */}
-      {viewTrans.map((data) => (
-        <div className="budgetdata" key={data.id}>
-          <div className="budgettable">
-            <div className="budgetitem">{data.date.substring(5, 10)}</div>
-            <div className="budgetitem">{data.merchant}</div>
-            <div className="budgetitem">{data.note}</div>
-            <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
-            <div className="budgetbuttondiv">
-              <button className="budgetbutton">Edit</button>
+      {viewTrans.map((data) =>
+        toggleEdit === data.id ? (
+          <div className="inputtable" key={data.id}>
+            <input
+              className="inputitem"
+              onChange={() => handleChangeFormBRP(event, "date")}
+              value={item.date}
+              min="1"
+              max={maxDays}
+              required
+              type="number"
+            />
+            <input
+              className="inputitem"
+              onChange={() => handleChangeFormBRP(event, "merchant")}
+              value={item.merchant}
+              required
+              type="text"
+            />
+            <input
+              className="inputitem"
+              onChange={() => handleChangeFormBRP(event, "note")}
+              value={item.note}
+              required
+              type="text"
+            />
+            <input
+              className="inputitem"
+              onChange={() => handleChangeFormBRP(event, "actual_amt")}
+              value={item.actual_amt}
+              type="number"
+            />
+            <div>
               <button
-                className="budgetbutton"
-                onClick={() => handleDeleteBRP(data.id)}
+                className="panelbutton"
+                onClick={() => submitEditBRP(item)}
               >
-                Delete
+                Update
+              </button>
+              <button
+                className="panelbutton"
+                onClick={() => handleCancelBRP("edit")}
+              >
+                Cancel
               </button>
             </div>
           </div>
-        </div>
-      ))}
+        ) : (
+          <div className="budgetdata" key={data.id}>
+            <div className="budgettable">
+              <div className="budgetitem">{data.date.substring(5, 10)}</div>
+              <div className="budgetitem">{data.merchant}</div>
+              <div className="budgetitem">{data.note}</div>
+              <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
+              <div className="budgetbuttondiv">
+                <button
+                  className="panelbutton"
+                  onClick={() => handleEditBRP(data)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="panelbutton"
+                  onClick={() => handleDeleteBRP(data.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )
+      )}
     </div>
   );
 };

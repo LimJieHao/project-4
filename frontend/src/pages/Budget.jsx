@@ -186,8 +186,28 @@ const Budget = () => {
       });
   };
 
-  const transEditBRP = () => {
-    console.log("hello");
+  const transEditBRP = (item) => {
+    Number(item.date) < 10 ? item.date = "0" + item.date : null
+    const itemDate = new Date(month + "-" + (item.date));
+    const itemDateISO = itemDate.toISOString();
+    item.date = itemDateISO;
+    fetch(`/api/transaction/updatetrans/${item.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const pos = viewTrans.findIndex((trans) => trans.id === item.id);
+        setViewTrans([
+          ...viewTrans.slice(0, pos),
+          data,
+          ...viewTrans.slice(pos + 1),
+        ]);
+      });
+
   };
 
   const transDeleteBRP = (id) => {

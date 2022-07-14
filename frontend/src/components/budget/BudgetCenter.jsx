@@ -238,7 +238,7 @@ const BudgetCenter = ({
             </div>
           ) : (
             <div className="budgetdata" key={data.id}>
-              <div className="budgettable" >
+              <div className="budgettable">
                 <div className="budgetitem">{data.category}</div>
                 {/* <div className="budgetitem">{data.name}</div> */}
                 <button
