@@ -4,18 +4,23 @@ const prisma = require("../server");
 const cookieJwtAuth = require("../middleware/cookieJwtAuth");
 
 // Create
-router.post("/addtrans/", cookieJwtAuth, async (req, res) => {
+router.post("/addtrans/:id/:budgetid", cookieJwtAuth, async (req, res) => {
+  const { id } = req.params
+  const { budgetid } = req.params
   try {
     const newTransaction = await prisma.Transaction.create({
       data: {
         date: req.body.date,
         merchant: req.body.merchant,
         actual_amt: req.body.actual_amt,
-        note: req.body.note
+        note: req.body.note,
+        user_id: id,
+        budget_id: budgetid
       },
     });
     res.send(newTransaction);
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
@@ -111,6 +116,7 @@ router.delete("/removetrans/:transid", cookieJwtAuth, async (req, res) => {
     });
     res.send({ status: "Successfully deleted category." });
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });

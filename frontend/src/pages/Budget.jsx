@@ -25,8 +25,9 @@ const Budget = () => {
   // Month and budget State
   const [month, setMonth] = useState(currentMth);
   const [budget, setBudget] = useState({ income: [], expense: [] });
-  const [toggleTrans, setToggleTrans] = useState(true);
+  const [toggleTrans, setToggleTrans] = useState(false);
   const [viewTrans, setViewTrans] = useState([]);
+  const [transType, setTransType] = useState({ id: "", name: "" });
 
   // Convert month state to date ISO format for db fetching
   const date = new Date(month + "-01");
@@ -54,10 +55,7 @@ const Budget = () => {
     fetch(`/api/budget/${user.id}/${dateISO}`)
       .then((response) => response.json())
       .then((data) => setBudget(data));
-
-    fetch(`/api/transaction/${user.id}/${startMthISO}/${endMthISO}`)
-      .then((response) => response.json())
-      .then((data) => setViewTrans(data));
+    setToggleTrans(false);
   }, [month]);
 
   // Callback function from child
@@ -162,15 +160,30 @@ const Budget = () => {
       `/api/transaction/read/${user.id}/${startMthISO}/${endMthISO}/${type.id}`
     )
       .then((response) => response.json())
-      .then((data) => setViewTrans(data));
+      .then((data) => {setViewTrans(data)});
+    setTransType({ id: type.id, name: type.name });
   };
 
   const closeTransBRP = () => {
     setToggleTrans(false);
   };
-
-  const transCreateBRP = () => {
-    console.log("hello");
+  
+  const transAddBRP = (item) => {
+    Number(item.date) < 10 ? item.date = "0" + item.date : null
+    const itemDate = new Date(month + "-" + (item.date));
+    const itemDateISO = itemDate.toISOString();
+    item.date = itemDateISO;
+    fetch(`/api/transaction/addtrans/${user.id}/${transType.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setViewTrans([...viewTrans, data]);
+      });
   };
 
   const transEditBRP = () => {
@@ -200,8 +213,10 @@ const Budget = () => {
       />
       {toggleTrans === true ? (
         <BudgetRightPanel
+          month={month}
+          transType={transType}
           viewTrans={viewTrans}
-          transCreateBRP={transCreateBRP}
+          transAddBRP={transAddBRP}
           transEditBRP={transEditBRP}
           transDeleteBRP={transDeleteBRP}
           closeTransBRP={closeTransBRP}

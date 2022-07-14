@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 const BudgetRightPanel = ({
+  month,
+  transType,
   viewTrans,
-  transCreateBRP,
+  transAddBRP,
   transEditBRP,
   transDeleteBRP,
   closeTransBRP,
@@ -15,6 +17,15 @@ const BudgetRightPanel = ({
     actual_amt: "",
     note: "",
   });
+  // calculate the max last day array[0] is for Feb 29
+  const dayLimit = [29, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let maxDays = 0;
+  Number(month.substring(0, 4)) % 4 === 0 &&
+  Number(month.substring(month.length - 2, month.length)) === 2
+    ? (maxDays = dayLimit[0])
+    : (maxDays =
+        dayLimit[Number(month.substring(month.length - 2, month.length))]);
+  console.log(maxDays)
   const handleChangeFormBRP = (event, key) => {
     if (key === "actual_amt") {
       setItem({
@@ -29,8 +40,26 @@ const BudgetRightPanel = ({
     }
   };
 
-  const handleCreateBRP = () => {
-    transCreateBRP();
+  const handleAddSubmitBRP = (event) => {
+    event.preventDefault();
+    setToggleAdd(false);
+    transAddBRP(item);
+    setItem({
+      date: "",
+      merchant: "",
+      actual_amt: "",
+      note: "",
+    });
+  };
+
+  const handleCancelBRP = () => {
+    setToggleAdd(false);
+    setItem({
+      date: "",
+      merchant: "",
+      actual_amt: "",
+      note: "",
+    });
   };
 
   const handleEditBRP = () => {
@@ -48,8 +77,10 @@ const BudgetRightPanel = ({
   return (
     <div className="budgetrightpanel">
       <div className="panel-title-container">
-        <div className="paneltitle">Actual Transaction for</div>
-        <button className="panelbutton" onClick={() => handleCreateBRP()}>
+        <div className="paneltitle">
+          Actual Transaction for {transType.name}
+        </div>
+        <button className="panelbutton" onClick={() => setToggleAdd(true)}>
           Add
         </button>
         <button className="panelbutton" onClick={() => handleCloseBRP()}>
@@ -68,20 +99,22 @@ const BudgetRightPanel = ({
         <form
           className="budgetAddForm"
           method="post"
-          onSubmit={() => handleAddSubmitBRP(event, "income")}
+          onSubmit={() => handleAddSubmitBRP(event)}
         >
           <fieldset>
             <legend>Add new item</legend>
-            <label className="FormLabel" htmlFor="date">
-              Date
+            <label className="FormLabel" htmlFor="day">
+              Day
             </label>
             <input
               className="inputfield"
               required
-              type="date"
-              placeholder="date"
-              name="date"
-              id="date"
+              type="number"
+              placeholder="day"
+              name="day"
+              id="day"
+              min="1"
+              max={maxDays}
               value={item.date}
               onChange={() => handleChangeFormBRP(event, "date")}
             />
@@ -123,7 +156,7 @@ const BudgetRightPanel = ({
             />
             <br />
             <button>Add</button>
-            <button type="button" onClick={() => handleCancelBRP("add")}>
+            <button type="button" onClick={() => handleCancelBRP()}>
               Cancel
             </button>
           </fieldset>
@@ -140,7 +173,12 @@ const BudgetRightPanel = ({
             <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
             <div className="budgetbuttondiv">
               <button className="budgetbutton">Edit</button>
-              <button className="budgetbutton" onClick={() => handleDeleteBRP(data.id)}>Delete</button>
+              <button
+                className="budgetbutton"
+                onClick={() => handleDeleteBRP(data.id)}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
