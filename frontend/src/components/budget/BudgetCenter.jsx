@@ -9,6 +9,7 @@ const BudgetCenter = ({
   deleteDataBudget,
   handleEditBudget,
   handleDeleteBudget,
+  addTransactionBudget,
 }) => {
   const [toggleAdd, setToggleAdd] = useState({
     income: false,
@@ -87,7 +88,7 @@ const BudgetCenter = ({
   };
 
   const submitEditBC = (type, data) => {
-    handleEditBudget(type, data)
+    handleEditBudget(type, data);
     setToggleEdit({ ...toggleEdit, [type]: -1 });
     setItem({
       type: "",
@@ -129,6 +130,10 @@ const BudgetCenter = ({
     });
   };
 
+  const addTransactionBC = (type, data) => {
+    addTransactionBudget(type, data);
+  };
+
   return (
     <div className="budgetcenter">
       {/* header */}
@@ -144,7 +149,9 @@ const BudgetCenter = ({
       />
       {budget.income.length === 0 && budget.expense.length === 0 ? (
         <button onClick={() => populateDataBC()}>Start planning</button>
-      ) : <button onClick={() => deleteDataBC()}>Delete budget</button>}
+      ) : (
+        <button onClick={() => deleteDataBC()}>Delete budget</button>
+      )}
       <br />
       <br />
 
@@ -168,6 +175,7 @@ const BudgetCenter = ({
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
           <div className="budgetitem">Actual</div>
+          <div className="budgetitem">Remaining</div>
         </div>
 
         {/* display of all income items */}
@@ -206,24 +214,33 @@ const BudgetCenter = ({
               </div>
             </div>
           ) : (
-            <div className="budgettable" key={data.id}>
-              <div className="budgetitem">{data.category}</div>
-              <div className="budgetitem">{data.name}</div>
-              <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-              <div className="budgetitem">to calculate</div>
-              <div>
-                <button
-                  className="budgetbutton"
-                  onClick={() => handleEditBC("income", data)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="budgetbutton"
-                  onClick={() => handleDeleteBC("income", data.id)}
-                >
-                  Delete
-                </button>
+            <div className="budgetdata">
+              <div className="budgettable" key={data.id}>
+                <div className="budgetitem">{data.category}</div>
+                <div className="budgetitem">{data.name}</div>
+                <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
+                <div className="budgetitem">to calculate</div>
+                <div className="budgetitem">to calculate</div>
+                <div className="budgetbuttondiv">
+                  <button
+                    className="budgetbutton"
+                    onClick={() => handleEditBC("income", data)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="budgetbutton"
+                    onClick={() => handleDeleteBC("income", data.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="budgetbutton longbutton"
+                    onClick={() => addTransactionBC("income", data)}
+                  >
+                    Add actual
+                  </button>
+                </div>
               </div>
             </div>
           )
@@ -305,6 +322,7 @@ const BudgetCenter = ({
           <div className="budgetitem">Name</div>
           <div className="budgetitem">Planned</div>
           <div className="budgetitem">Actual</div>
+          <div className="budgetitem">Remaining</div>
         </div>
 
         {/* display of all expense items */}
@@ -343,24 +361,33 @@ const BudgetCenter = ({
               </div>
             </div>
           ) : (
-            <div className="budgettable" key={data.id}>
-              <div className="budgetitem">{data.category}</div>
-              <div className="budgetitem">{data.name}</div>
-              <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-              <div className="budgetitem">to calculate</div>
-              <div>
-                <button
-                  className="budgetbutton"
-                  onClick={() => handleEditBC("expense", data)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="budgetbutton"
-                  onClick={() => handleDeleteBC("expense", data.id)}
-                >
-                  Delete
-                </button>
+            <div className="budgetdata">
+              <div className="budgettable" key={data.id}>
+                <div className="budgetitem">{data.category}</div>
+                <div className="budgetitem">{data.name}</div>
+                <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
+                <div className="budgetitem">to calculate</div>
+                <div className="budgetitem">to calculate</div>
+                <div className="budgetbuttondiv">
+                  <button
+                    className="budgetbutton"
+                    onClick={() => handleEditBC("expense", data)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="budgetbutton"
+                    onClick={() => handleDeleteBC("expense", data.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="budgetbutton longbutton"
+                    onClick={() => addTransactionBC("expense", data)}
+                  >
+                    Add actual
+                  </button>
+                </div>
               </div>
             </div>
           )

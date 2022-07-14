@@ -76,7 +76,7 @@ const Budget = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const pos = budget[type].findIndex((item) => item.id === data.id)
+        const pos = budget[type].findIndex((item) => item.id === data.id);
         if (type === "income") {
           setBudget({
             income: [
@@ -129,6 +129,10 @@ const Budget = () => {
       });
   };
 
+  const addTransactionBudget = (type, data) => {
+    console.log("hello")
+  }
+
   return (
     <>
       <BudgetCenter
@@ -140,6 +144,7 @@ const Budget = () => {
         deleteDataBudget={deleteDataBudget}
         handleEditBudget={handleEditBudget}
         handleDeleteBudget={handleDeleteBudget}
+        addTransactionBudget={addTransactionBudget}
       />
       <BudgetRightPanel />
     </>

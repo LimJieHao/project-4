@@ -19,15 +19,18 @@ body {
 }
 
 .leftsidebar {
+  top: 0;
+  left: 0;
   display: block;
   height: 100%;
   width: 5%;
   background-color: cyan;
   position: fixed;
+  padding: 1px 10px;
 }
 
 .budgetcenter {
-  width: 70%;
+  width: 65%;
   margin-left: 5%;
   padding: 1px 20px;
 }
@@ -40,7 +43,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  width: 20%;
+  width: 30%;
   height: 100%;
   background-color: yellow;
   padding: 10px;
@@ -64,7 +67,7 @@ body {
 .budgettable {
   display: flex;
   align-items: center;
-  column-gap: 50px;
+  column-gap: 25px;
 }
 
 .tabletitle {
@@ -79,7 +82,7 @@ body {
 .inputtable {
   display: flex;
   align-items: center;
-  column-gap: 50px;
+  column-gap: 30px;
 }
 
 .inputitem {
@@ -95,6 +98,10 @@ body {
 }
 
 .budgetbutton {
-  margin-right: 5px;
+  margin-right: 2px;
   width: 75px;
+}
+
+.longbutton {
+  width: 80px;
 }

@@ -220,7 +220,7 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
         type: req.body.type,
         category: req.body.category,
         name: req.body.name,
-        planned_amt: req.body.planned_amt
+        planned_amt: req.body.planned_amt,
       },
     });
     res.send(updateBudget);
