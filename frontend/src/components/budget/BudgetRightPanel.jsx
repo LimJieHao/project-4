@@ -37,8 +37,8 @@ const BudgetRightPanel = ({
     transEditBRP();
   };
 
-  const handleDeleteBRP = () => {
-    transDeleteBRP();
+  const handleDeleteBRP = (id) => {
+    transDeleteBRP(id);
   };
 
   const handleCloseBRP = () => {
@@ -140,7 +140,7 @@ const BudgetRightPanel = ({
             <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
             <div className="budgetbuttondiv">
               <button className="budgetbutton">Edit</button>
-              <button className="budgetbutton">Delete</button>
+              <button className="budgetbutton" onClick={() => handleDeleteBRP(data.id)}>Delete</button>
             </div>
           </div>
         </div>

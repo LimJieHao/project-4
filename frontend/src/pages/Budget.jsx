@@ -25,7 +25,7 @@ const Budget = () => {
   // Month and budget State
   const [month, setMonth] = useState(currentMth);
   const [budget, setBudget] = useState({ income: [], expense: [] });
-  const [toggleTrans, setToggleTrans] = useState(false);
+  const [toggleTrans, setToggleTrans] = useState(true);
   const [viewTrans, setViewTrans] = useState([]);
 
   // Convert month state to date ISO format for db fetching
@@ -59,7 +59,7 @@ const Budget = () => {
       .then((response) => response.json())
       .then((data) => setViewTrans(data));
   }, [month]);
-  
+
   // Callback function from child
   const handleChangeCalBudget = (str) => {
     setMonth(str);
@@ -129,11 +129,13 @@ const Budget = () => {
   };
 
   const deleteDataBudget = () => {
-    fetch(`/api/budget/removebudbyuser/${user.id}/${startMthISO}/${endMthISO}`, { method: "DELETE" })
+    fetch(
+      `/api/budget/removebudbyuser/${user.id}/${startMthISO}/${endMthISO}`,
+      { method: "DELETE" }
+    )
       .then((response) => response.json())
-      .then((data) => 
-      setBudget({ income: [], expense: [] }))
-      setViewTrans([]);
+      .then((data) => setBudget({ income: [], expense: [] }));
+    setViewTrans([]);
   };
 
   const handleDeleteBudget = (type, id) => {
@@ -175,8 +177,12 @@ const Budget = () => {
     console.log("hello");
   };
 
-  const transDeleteBRP = () => {
-    console.log("hello");
+  const transDeleteBRP = (id) => {
+    fetch(`/api/transaction/removetrans/${id}`, { method: "DELETE" })
+      .then((response) => response.json())
+      .then((data) => {
+        setViewTrans(viewTrans.filter((element) => element.id !== id));
+      });
   };
 
   return (

@@ -335,7 +335,7 @@ async function main() {
         actual_amt: 5500,
         note: "July 2022 pay",
         user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
-        budget_id: "db8a1096-3c7f-4c84-bf1c-886459efc875", 
+        budget_id: "cb7f97c7-e424-457e-afe0-42795e3eaba0", 
       },
       {
         date: "2022-07-15T00:00:00.000Z",
@@ -343,7 +343,7 @@ async function main() {
         actual_amt: 500,
         note: "IBM shares",
         user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
-        budget_id: "ae5bdbcb-1731-4e3d-8064-4384c2cacddd", 
+        budget_id: "adfc1b32-29fd-4812-a8f8-2b203c867c0e", 
       },
       {
         date: "2022-07-01T00:00:00.000Z",
@@ -351,7 +351,7 @@ async function main() {
         actual_amt: 20,
         note: "Lunch",
         user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
-        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+        budget_id: "282735c7-b1a5-420a-a458-df204307094b", 
       },
       {
         date: "2022-07-01T00:00:00.000Z",
@@ -359,7 +359,7 @@ async function main() {
         actual_amt: 50,
         note: "Dinner",
         user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
-        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+        budget_id: "282735c7-b1a5-420a-a458-df204307094b", 
       },
       {
         date: "2022-07-02T00:00:00.000Z",
@@ -367,7 +367,7 @@ async function main() {
         actual_amt: 100,
         note: "Lunch",
         user_id: "688a1c32-f7b5-4264-8dae-dd418ccbdb89",
-        budget_id: "162069bf-d66a-4e01-a6ed-bcb7a7574d1f", 
+        budget_id: "282735c7-b1a5-420a-a458-df204307094b", 
       },
     ],
   });

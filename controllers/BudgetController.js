@@ -233,18 +233,11 @@ router.put("/updatebud/:id", cookieJwtAuth, async (req, res) => {
 router.delete("/removebud/:id", cookieJwtAuth, async (req, res) => {
   const { id } = req.params;
   try {
-    const deleteTransaction = prisma.transaction.deleteMany({
-      where: {
-        budget_id: id,
-      },
-    });
-
     const deleteBudget = await prisma.Budget_Category.delete({
       where: {
         id: id,
       },
     });
-    const budget = await prisma.$transaction([deleteTransaction, deleteBudget]);
     res.send({ status: "Successfully deleted Budget." });
   } catch (error) {
     console.log(error)
