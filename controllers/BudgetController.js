@@ -20,6 +20,7 @@ router.post("/addbudcat/:id/:date", cookieJwtAuth, async (req, res) => {
     });
     res.send(newBudget);
   } catch (error) {
+    console.log(error)
     res.send({ status: "fail", data: "error" });
   }
 });
@@ -152,7 +153,7 @@ router.post("/populate/:id/:date", cookieJwtAuth, async (req, res) => {
         },
       ],
     });
-    const budgetInfo = { income: budgetIncome, expense: budgetExpense };
+    const budgetInfo = { income: budgetIncome, expense: budgetExpense, total: []};
     res.send(budgetInfo);
   } catch (error) {
     res.send({ status: "fail", data: "error" });
