@@ -24,7 +24,7 @@ const Budget = () => {
 
   // Month and budget State
   const [month, setMonth] = useState(currentMth);
-  const [budget, setBudget] = useState({ income: [], expense: [], total: [] });
+  const [budget, setBudget] = useState({ income: [], expense: [] });
   const [toggleTrans, setToggleTrans] = useState(false);
   const [viewTrans, setViewTrans] = useState([]);
   const [transType, setTransType] = useState({ id: "", name: "" });
@@ -52,15 +52,15 @@ const Budget = () => {
 
   // Initial fetch
   useEffect(() => {
-    fetch(`/api/budget/${user.id}/${dateISO}/`)
+    fetch(`/api/budget/${user.id}/${dateISO}`)
       .then((response) => response.json())
       .then((data) => setBudget(data));
-  }, [month, viewTrans]);
+    setToggleTrans(false);
+  }, [month]);
 
   // Callback function from child
   const handleChangeCalBudget = (str) => {
     setMonth(str);
-    setToggleTrans(false);
   };
 
   const handleAddBudget = (type, item) => {
@@ -138,7 +138,7 @@ const Budget = () => {
       .then((response) => response.json())
       .then((data) => setBudget({ income: [], expense: [] }));
     setViewTrans([]);
-    setToggleTrans(false);
+    setToggleTrans(false)
   };
 
   const handleDeleteBudget = (type, id) => {
@@ -159,8 +159,8 @@ const Budget = () => {
           });
         }
       });
-    setViewTrans([]);
-    setToggleTrans(false);
+      setViewTrans([])
+      setToggleTrans(false)
   };
 
   const viewTransactionBudget = (type) => {
@@ -169,19 +169,17 @@ const Budget = () => {
       `/api/transaction/read/${user.id}/${startMthISO}/${endMthISO}/${type.id}`
     )
       .then((response) => response.json())
-      .then((data) => {
-        setViewTrans(data);
-      });
+      .then((data) => {setViewTrans(data)});
     setTransType({ id: type.id, name: type.name });
   };
 
   const closeTransBRP = () => {
     setToggleTrans(false);
   };
-
+  
   const transAddBRP = (item) => {
-    Number(item.date) < 10 ? (item.date = "0" + item.date) : null;
-    const itemDate = new Date(month + "-" + item.date);
+    Number(item.date) < 10 ? item.date = "0" + item.date : null
+    const itemDate = new Date(month + "-" + (item.date));
     const itemDateISO = itemDate.toISOString();
     item.date = itemDateISO;
     fetch(`/api/transaction/addtrans/${user.id}/${transType.id}`, {
@@ -198,8 +196,8 @@ const Budget = () => {
   };
 
   const transEditBRP = (item) => {
-    Number(item.date) < 10 ? (item.date = "0" + item.date) : null;
-    const itemDate = new Date(month + "-" + item.date);
+    Number(item.date) < 10 ? item.date = "0" + item.date : null
+    const itemDate = new Date(month + "-" + (item.date));
     const itemDateISO = itemDate.toISOString();
     item.date = itemDateISO;
     fetch(`/api/transaction/updatetrans/${item.id}`, {
@@ -218,6 +216,7 @@ const Budget = () => {
           ...viewTrans.slice(pos + 1),
         ]);
       });
+
   };
 
   const transDeleteBRP = (id) => {
