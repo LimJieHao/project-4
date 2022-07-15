@@ -77,13 +77,11 @@ const Budget = () => {
           setBudget({
             income: [...budget.income, data],
             expense: [...budget.expense],
-            total: [...budget.total]
           });
         } else if (type === "expense") {
           setBudget({
             income: [...budget.income],
             expense: [...budget.expense, data],
-            total: [...budget.total]
           });
         }
       });
@@ -108,7 +106,6 @@ const Budget = () => {
               ...budget.income.slice(pos + 1),
             ],
             expense: [...budget.expense],
-            total: [...budget.total],
           });
         } else if (type === "expense") {
           setBudget({
@@ -118,7 +115,6 @@ const Budget = () => {
               data,
               ...budget.expense.slice(pos + 1),
             ],
-            total: [...budget.total],
           });
         }
       });
@@ -149,13 +145,11 @@ const Budget = () => {
           setBudget({
             income: budget[type].filter((b) => b.id !== id),
             expense: [...budget.expense],
-            total: [...budget.total],
           });
         } else if (type === "expense") {
           setBudget({
             income: [...budget.income],
             expense: budget[type].filter((b) => b.id !== id),
-            total: [...budget.total],
           });
         }
       });
