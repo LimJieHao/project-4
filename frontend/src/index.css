@@ -9,9 +9,10 @@ body {
 
 .navbar {
   display: flex;
-  column-gap: 20px;
+  column-gap: 15px;
   background-color: cyan;
-  padding: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .signupform {

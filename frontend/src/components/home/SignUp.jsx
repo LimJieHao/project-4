@@ -74,8 +74,6 @@ const SignUp = () => {
             value={signUp.password}
             onChange={() => handleChange(event, "password")}
           />
-          <br />
-
           <button>Sign Up</button>
         </fieldset>
         <br />

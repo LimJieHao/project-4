@@ -248,7 +248,11 @@ const BudgetCenter = ({
                   {data.name}
                 </button>
                 <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-                <div className="budgetitem">to calculate</div>
+                {data.actual_amt === undefined ? (
+                  <div className="budgetitem">0.00</div>
+                ) : (
+                  <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
+                )}
                 <div className="budgetbuttondiv">
                   <button
                     className="budgetbutton"
@@ -399,7 +403,11 @@ const BudgetCenter = ({
                   {data.name}
                 </button>
                 <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
-                <div className="budgetitem">to calculate</div>
+                {data.actual_amt === undefined ? (
+                  <div className="budgetitem">0.00</div>
+                ) : (
+                  <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
+                )}
                 <div className="budgetbuttondiv">
                   <button
                     className="budgetbutton"
@@ -481,6 +489,30 @@ const BudgetCenter = ({
           </fieldset>
         </form>
       ) : null}
+
+      <div className="budgetcontainer">
+        <div className="budget-title-container">
+        </div>
+        <div className="budgettable tabletitle">
+          <div className="budgetitem"></div>
+          <div className="budgetitem">Total</div>
+          <div className="budgetitem">Planned</div>
+          <div className="budgetitem">Actual</div>
+        </div>
+
+        {/* display of all calculation items */}
+        {budget.total.map((data, index) =>
+            <div className="budgetdata" key={index}>
+              <div className="budgettable">
+                <div className="budgetitem"></div>
+                <div className="budgetitem">{data.type}</div>
+                <div className="budgetitem">{data.planned_amt.toFixed(2)}</div>
+                  <div className="budgetitem">{data.actual_amt.toFixed(2)}</div>
+              </div>
+            </div>
+          )
+        }
+      </div>
     </div>
   );
 };
